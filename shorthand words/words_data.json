@@ -1,0 +1,98 @@
+[
+  {
+    "mainWord": "black",
+    "translation": "黑色的",
+    "relatedWord1": "lack",
+    "relatedWord2": "look"
+  },
+  {
+    "mainWord": "white",
+    "translation": "白色的",
+    "relatedWord1": "light",
+    "relatedWord2": "right"
+  },
+  {
+    "mainWord": "green",
+    "translation": "绿色的",
+    "relatedWord1": "tree",
+    "relatedWord2": "free"
+  },
+  {
+    "mainWord": "blue",
+    "translation": "蓝色的",
+    "relatedWord1": "true",
+    "relatedWord2": "new"
+  },
+  {
+    "mainWord": "red",
+    "translation": "红色的",
+    "relatedWord1": "bed",
+    "relatedWord2": "led"
+  },
+  {
+    "mainWord": "yellow",
+    "translation": "黄色的",
+    "relatedWord1": "hello",
+    "relatedWord2": "below"
+  },
+  {
+    "mainWord": "orange",
+    "translation": "橙色的",
+    "relatedWord1": "range",
+    "relatedWord2": "change"
+  },
+  {
+    "mainWord": "purple",
+    "translation": "紫色的",
+    "relatedWord1": "circle",
+    "relatedWord2": "simple"
+  },
+  {
+    "mainWord": "brown",
+    "translation": "棕色的",
+    "relatedWord1": "down",
+    "relatedWord2": "town"
+  },
+  {
+    "mainWord": "pink",
+    "translation": "粉色的",
+    "relatedWord1": "think",
+    "relatedWord2": "link"
+  },
+  {
+    "mainWord": "gray",
+    "translation": "灰色的",
+    "relatedWord1": "play",
+    "relatedWord2": "way"
+  },
+  {
+    "mainWord": "gold",
+    "translation": "金色的",
+    "relatedWord1": "old",
+    "relatedWord2": "cold"
+  },
+  {
+    "mainWord": "silver",
+    "translation": "银色的",
+    "relatedWord1": "river",
+    "relatedWord2": "never"
+  },
+  {
+    "mainWord": "clear",
+    "translation": "透明的",
+    "relatedWord1": "near",
+    "relatedWord2": "hear"
+  },
+  {
+    "mainWord": "dark",
+    "translation": "深色的",
+    "relatedWord1": "park",
+    "relatedWord2": "mark"
+  },
+  {
+    "mainWord": "bright",
+    "translation": "明亮的",
+    "relatedWord1": "light",
+    "relatedWord2": "night"
+  }
+]
