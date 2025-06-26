@@ -10,6 +10,16 @@
 			<key>catalogPath</key>
 			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
 			<key>objcSymbol</key>
+			<string>ACImageNameArrow</string>
+			<key>relativePath</key>
+			<string>./arrow.imageset</string>
+			<key>swiftSymbol</key>
+			<string>arrow</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
+			<key>objcSymbol</key>
 			<string>ACImageNameBack</string>
 			<key>relativePath</key>
 			<string>./back.imageset</string>

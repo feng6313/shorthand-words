@@ -31,6 +31,9 @@ extension DeveloperToolsSupport.ColorResource {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension DeveloperToolsSupport.ImageResource {
 
+    /// The "arrow" asset catalog image resource.
+    static let arrow = DeveloperToolsSupport.ImageResource(name: "arrow", bundle: resourceBundle)
+
     /// The "back" asset catalog image resource.
     static let back = DeveloperToolsSupport.ImageResource(name: "back", bundle: resourceBundle)
 
@@ -82,6 +85,15 @@ extension SwiftUI.ShapeStyle where Self == SwiftUI.Color {
 @available(macCatalyst, unavailable)
 extension AppKit.NSImage {
 
+    /// The "arrow" asset catalog image.
+    static var arrow: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .arrow)
+#else
+        .init()
+#endif
+    }
+
     /// The "back" asset catalog image.
     static var back: AppKit.NSImage {
 #if !targetEnvironment(macCatalyst)
@@ -125,6 +137,15 @@ extension AppKit.NSImage {
 @available(iOS 17.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
 extension UIKit.UIImage {
+
+    /// The "arrow" asset catalog image.
+    static var arrow: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .arrow)
+#else
+        .init()
+#endif
+    }
 
     /// The "back" asset catalog image.
     static var back: UIKit.UIImage {

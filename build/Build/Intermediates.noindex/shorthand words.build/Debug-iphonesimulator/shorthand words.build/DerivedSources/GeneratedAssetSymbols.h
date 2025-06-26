@@ -6,6 +6,9 @@
 #define AC_SWIFT_PRIVATE
 #endif
 
+/// The "arrow" asset catalog image resource.
+static NSString * const ACImageNameArrow AC_SWIFT_PRIVATE = @"arrow";
+
 /// The "back" asset catalog image resource.
 static NSString * const ACImageNameBack AC_SWIFT_PRIVATE = @"back";
 
