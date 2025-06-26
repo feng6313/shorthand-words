@@ -7,66 +7,8 @@
 
 import SwiftUI
 
-// 单词数据结构
-struct WordData: Codable, Identifiable {
-    let id: UUID
-    let mainWord: String
-    let translation: String
-    let relatedWord1: String
-    let relatedWord2: String
-    let phonetic: String
-    let phrases: [WordPhrase]
-    let examples: [WordExample]
-    
-    init(mainWord: String, translation: String, relatedWord1: String, relatedWord2: String, phonetic: String = "", phrases: [WordPhrase] = [], examples: [WordExample] = []) {
-        self.id = UUID()
-        self.mainWord = mainWord
-        self.translation = translation
-        self.relatedWord1 = relatedWord1
-        self.relatedWord2 = relatedWord2
-        self.phonetic = phonetic
-        self.phrases = phrases
-        self.examples = examples
-    }
-    
-    // Custom coding keys to exclude id from JSON encoding/decoding
-    enum CodingKeys: String, CodingKey {
-        case mainWord, translation, relatedWord1, relatedWord2, phonetic, phrases, examples
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = UUID()
-        self.mainWord = try container.decode(String.self, forKey: .mainWord)
-        self.translation = try container.decode(String.self, forKey: .translation)
-        self.relatedWord1 = try container.decode(String.self, forKey: .relatedWord1)
-        self.relatedWord2 = try container.decode(String.self, forKey: .relatedWord2)
-        self.phonetic = try container.decode(String.self, forKey: .phonetic)
-        self.phrases = try container.decode([WordPhrase].self, forKey: .phrases)
-        self.examples = try container.decode([WordExample].self, forKey: .examples)
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(mainWord, forKey: .mainWord)
-        try container.encode(translation, forKey: .translation)
-        try container.encode(relatedWord1, forKey: .relatedWord1)
-        try container.encode(relatedWord2, forKey: .relatedWord2)
-        try container.encode(phonetic, forKey: .phonetic)
-        try container.encode(phrases, forKey: .phrases)
-        try container.encode(examples, forKey: .examples)
-    }
-}
-
-struct WordPhrase: Codable {
-    let english: String
-    let chinese: String
-}
-
-struct WordExample: Codable {
-    let english: String
-    let chinese: String
-}
+// 使用WordDataManager中的数据结构
+// 这里不再重复定义，直接使用WordDataManager中的WordDetail等结构
 
 struct ContentView: View {
     // 预定义颜色数组
@@ -82,76 +24,38 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // 顶部标题
-                HStack {
-                    Text("速记1600词")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.black)
-                    Spacer()
+            ScrollView {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
+                    if let firstWordDetail = dataManager.getFirstWordDetail() {
+                        NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[0]))) {
+                            WordBlockView(
+                                wordDetail: firstWordDetail,
+                                circleColor: Color(hex: circleColors[0]),
+                                blockNumber: 1,
+                                wordCount: dataManager.allWordsCount,
+                                homePageWords: dataManager.getHomePageWords().map { $0.english }
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 16)
-                .padding(.bottom, 24)
-                
-                // 单词网格 - 只显示一个单词卡片
-                ScrollView {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
-                        if let firstWord = dataManager.wordsData.first {
-                            NavigationLink(destination: WordDetailView(wordData: firstWord, circleColor: Color(hex: circleColors[0]))) {
-                                WordBlockView(
-                                     wordData: firstWord,
-                                     circleColor: Color(hex: circleColors[0]),
-                                     blockNumber: 1,
-                                     wordCount: dataManager.allWordsCount // 显示JSON文件中所有词语的数量
-                                 )
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                }
             }
             .background(Color(hex: "f3f3f3"))
+            .navigationTitle("速记1600词")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
-// 扩展Color以支持十六进制颜色
-extension Color {
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (1, 1, 1, 0)
-        }
-        
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue:  Double(b) / 255,
-            opacity: Double(a) / 255
-        )
-    }
-}
+// Color扩展已在WordDetailView中定义
 
 // 单词块视图组件
 struct WordBlockView: View {
-    let wordData: WordData
+    let wordDetail: WordDetail
     let circleColor: Color
     let blockNumber: Int
     let wordCount: Int
+    let homePageWords: [String]
     @State private var isCollected: Bool = false
     
     var body: some View {
@@ -174,20 +78,20 @@ struct WordBlockView: View {
                             )
                             .overlay(
                                 VStack(spacing: 2) {
-                                    Text(wordData.mainWord)
-                                        .font(.system(size: 18, weight: .semibold))
-                                        .foregroundColor(.white)
-                                    Text(wordData.translation)
-                                        .font(.system(size: 12, weight: .regular))
-                                        .foregroundColor(.white.opacity(0.7))
-                                }
+                                Text(wordDetail.english)
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(.white)
+                                Text(wordDetail.chinese)
+                                    .font(.system(size: 12, weight: .regular))
+                                    .foregroundColor(.white.opacity(0.7))
+                            }
                                 .position(
                                     x: blockWidth / 2,
                                     y: 20 + (blockWidth * 0.6) / 2
                                 )
                             )
                         
-                        // 第二个圆 - 相关单词1（距离上边缘124点）
+                        // 第二个圆 - home_page_words第二个单词
                         Circle()
                             .fill(Color(hex: "EBEBEB"))
                             .frame(width: blockWidth * 0.3, height: blockWidth * 0.3)
@@ -196,7 +100,7 @@ struct WordBlockView: View {
                                 y: 124 + (blockWidth * 0.3) / 2
                             )
                             .overlay(
-                                Text(wordData.relatedWord1)
+                                Text(homePageWords.count > 1 ? homePageWords[1] : "about")
                                     .font(.system(size: 9, weight: .semibold))
                                     .foregroundColor(circleColor)
                                     .position(
@@ -205,7 +109,7 @@ struct WordBlockView: View {
                                     )
                             )
                         
-                        // 第三个圆 - 相关单词2（距离上边缘124点）
+                        // 第三个圆 - home_page_words第三个单词
                         Circle()
                             .fill(circleColor)
                             .frame(width: blockWidth * 0.18, height: blockWidth * 0.18)
@@ -214,7 +118,7 @@ struct WordBlockView: View {
                                 y: 124 + (blockWidth * 0.18) / 2
                             )
                             .overlay(
-                                Text(wordData.relatedWord2)
+                                Text(homePageWords.count > 2 ? homePageWords[2] : "sprout")
                                     .font(.system(size: 6, weight: .semibold))
                                     .foregroundColor(.white)
                                     .position(

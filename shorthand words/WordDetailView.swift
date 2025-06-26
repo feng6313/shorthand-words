@@ -8,15 +8,42 @@
 import SwiftUI
 import AVFoundation
 
+// 扩展Color以支持十六进制颜色
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (1, 1, 1, 0)
+        }
+        
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue:  Double(b) / 255,
+            opacity: Double(a) / 255
+        )
+    }
+}
+
 struct WordDetailView: View {
-    let wordData: WordData
+    let wordDetail: WordDetail
     let circleColor: Color
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedRectangleIndex: Int? = nil
-    @StateObject private var mindMapManager = MindMapDataManager()
+    @State private var selectedRectangleIndex: Int? = 0
     @StateObject private var wordDataManager = WordDataManager()
     @State private var speechSynthesizer = AVSpeechSynthesizer()
-    @State private var selectedWordData: WordData? = nil
+    @State private var selectedWordDetail: WordDetail? = nil
     
     // 当前显示的思维图ID（可以根据需要动态设置）
     private let currentMindMapId = 1
@@ -41,12 +68,12 @@ struct WordDetailView: View {
                         .fill(circleColor)
                         .frame(height: 84)
                         .overlay(
-                            Text(wordData.mainWord)
-                                .font(.system(size: 20, weight: .semibold))
+                            Text(wordDetail.english)
+                                .font(.system(size: 30, weight: .semibold))
                                 .foregroundColor(Color(hex: "ffffff"))
                         )
                         .onTapGesture {
-                            speakText(wordData.mainWord)
+                            speakText(wordDetail.english)
                         }
                 }
                 .padding(.horizontal, 12)
@@ -61,24 +88,27 @@ struct WordDetailView: View {
                     .overlay(
                         VStack(alignment: .center, spacing: 0) {
                             // 单词 - 距离上边缘40点
-                            Text((selectedWordData ?? wordData).mainWord)
-                                .font(.system(size: 50, weight: .semibold))
-                                .foregroundColor(Color(hex: "000000"))
-                                .padding(.top, 40)
-                                .onTapGesture {
-                                    speakText((selectedWordData ?? wordData).mainWord)
-                                }
+                            createHighlightedText(
+                                text: (selectedWordDetail ?? wordDetail).english,
+                                highlightRanges: getHighlightRanges(for: (selectedWordDetail ?? wordDetail).english),
+                                fontSize: 50,
+                                fontWeight: .semibold
+                            )
+                            .padding(.top, 40)
+                            .onTapGesture {
+                                speakText((selectedWordDetail ?? wordDetail).english)
+                            }
                             
                             // 音标 - 紧贴单词
-                            Text((selectedWordData ?? wordData).phonetic)
+                            Text((selectedWordDetail ?? wordDetail).phonetic)
                                 .font(.system(size: 24, weight: .medium))
                                 .foregroundColor(Color(hex: "5D8DFD"))
                                 .onTapGesture {
-                                    speakText((selectedWordData ?? wordData).mainWord)
+                                    speakText((selectedWordDetail ?? wordDetail).english)
                                 }
                             
                             // 翻译 - 距离卡片上边缘145点
-                            Text((selectedWordData ?? wordData).translation)
+                            Text((selectedWordDetail ?? wordDetail).chinese)
                                 .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(Color(hex: "000000"))
                                 .padding(.top, 145 - 32 - 50 - 24)
@@ -91,7 +121,7 @@ struct WordDetailView: View {
                             
                             // 词组及翻译 - 距离卡片上边缘220点
                             VStack(alignment: .center, spacing: 2) {
-                                if let firstPhrase = (selectedWordData ?? wordData).phrases.first {
+                                if let firstPhrase = (selectedWordDetail ?? wordDetail).phrases.first {
                                     Text(firstPhrase.english)
                                         .font(.system(size: 14, weight: .medium))
                                         .foregroundColor(Color(hex: "000000"))
@@ -107,7 +137,7 @@ struct WordDetailView: View {
                             
                             // 例句及翻译 - 距离卡片上边缘248点
                             VStack(alignment: .center, spacing: 2) {
-                                if let firstExample = (selectedWordData ?? wordData).examples.first {
+                                if let firstExample = (selectedWordDetail ?? wordDetail).examples.first {
                                     Text(firstExample.english)
                                         .font(.system(size: 14, weight: .medium))
                                         .foregroundColor(Color(hex: "000000"))
@@ -143,7 +173,7 @@ struct WordDetailView: View {
                     .padding(.top, 4)
                     .overlay(
                         VStack(spacing: 0) {
-                            if let mindMapData = mindMapManager.getMindMap(by: currentMindMapId) {
+                            if let mindMapData = wordDataManager.getMindMap(by: currentMindMapId) {
                                 VStack(spacing: 0) {
                                     // 第一行：矩形1、箭头、矩形2、箭头、矩形3
                                     HStack(spacing: 2) {
@@ -168,10 +198,9 @@ struct WordDetailView: View {
                                         // 左列箭头 - 与第一个矩形对齐
                                         HStack {
                                             Spacer()
-                                            Image("arrow")
+                                            Image("down")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -186,7 +215,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -201,7 +229,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -234,7 +261,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -249,7 +275,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -264,7 +289,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -297,7 +321,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -312,7 +335,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -327,7 +349,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -360,7 +381,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -375,7 +395,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -390,7 +409,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -446,7 +464,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -461,7 +478,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -476,7 +492,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -509,7 +524,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -524,7 +538,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -539,7 +552,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -572,7 +584,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -587,7 +598,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -602,7 +612,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -635,7 +644,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -650,7 +658,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -665,7 +672,6 @@ struct WordDetailView: View {
                                             Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
-                                                .rotationEffect(.degrees(90))
                                             Spacer()
                                         }
                                         .frame(width: 100) // 与矩形宽度一致
@@ -700,7 +706,9 @@ struct WordDetailView: View {
             }
         }
         .background(Color(hex: "f3f3f3"))
-        .navigationBarHidden(true)
+        #if os(iOS)
+        .toolbar(.hidden, for: .navigationBar)
+        #endif
     }
     
     // MARK: - 辅助函数
@@ -708,18 +716,30 @@ struct WordDetailView: View {
     /// 创建思维图矩形（有数据时使用）
     private func createMindMapRectangle(index: Int, word: MindMapWord?, customColor: String) -> some View {
         let displayWord = word ?? MindMapWord(english: "word\(index + 1)", chinese: "单词\(index + 1)", backgroundColor: customColor)
-        let backgroundColor = customColor // 使用自定义颜色覆盖JSON中的颜色
+        
+        // 检查单词是否为空
+        let isEmpty = displayWord.english.isEmpty
+        let backgroundColor = isEmpty ? "ffffff" : customColor // 空单词使用白色背景
         
         return RoundedRectangle(cornerRadius: 8)
             .fill(Color(hex: backgroundColor))
             .frame(height: 56)
             .overlay(
                 VStack(spacing: 2) {
-                    // 第一行英文：字号16，字重semibold，颜色黑色
-                    Text(displayWord.english)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color(hex: "000000"))
+                    // 第一行英文：字号16，字重semibold，支持高亮
+                    if !isEmpty {
+                        createHighlightedText(
+                            text: displayWord.english,
+                            highlightRanges: getHighlightRanges(for: displayWord.english),
+                            fontSize: 16,
+                            fontWeight: .semibold
+                        )
                         .lineLimit(1)
+                    } else {
+                        Text("")
+                            .font(.system(size: 16, weight: .semibold))
+                            .lineLimit(1)
+                    }
                     
                     // 第二行中文：字号12，字重medium，颜色黑色
                     Text(displayWord.chinese)
@@ -730,45 +750,102 @@ struct WordDetailView: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color(hex: "9400D8"), lineWidth: selectedRectangleIndex == index ? 1 : 0)
+                    .stroke(Color(hex: "9400D8"), lineWidth: selectedRectangleIndex == index && !isEmpty ? 1 : 0)
             )
             .onTapGesture {
-                selectedRectangleIndex = index
-                speakText(displayWord.english)
-                // 根据点击的单词更新上方显示的单词数据
-                selectedWordData = wordDataManager.getWordData(for: displayWord.english)
+                // 空单词不可选中
+                if !isEmpty {
+                    selectedRectangleIndex = index
+                    speakText(displayWord.english)
+                    // 根据点击的单词更新上方显示的单词数据
+                    selectedWordDetail = wordDataManager.getWordDetail(for: displayWord.english)
+                }
             }
     }
     
     /// 创建默认矩形（无数据时使用）
     private func createDefaultRectangle(index: Int, customColor: String) -> some View {
+        let backgroundColor = Color.gray.opacity(0.2)
+        let textColor = Color.black
+        let strokeColor = Color.purple
+        
         return RoundedRectangle(cornerRadius: 8)
-            .fill(Color(hex: customColor))
+            .fill(backgroundColor)
             .frame(height: 56)
             .overlay(
                 VStack(spacing: 2) {
                     // 第一行英文：字号16，字重semibold，颜色黑色
                     Text("word\(index + 1)")
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color(hex: "000000"))
+                        .foregroundColor(textColor)
                         .lineLimit(1)
                     
                     // 第二行中文：字号12，字重medium，颜色黑色
                     Text("单词\(index + 1)")
                         .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(Color(hex: "000000"))
+                        .foregroundColor(textColor)
                         .lineLimit(1)
                 }
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color(hex: "9400D8"), lineWidth: selectedRectangleIndex == index ? 1 : 0)
+                    .stroke(strokeColor, lineWidth: selectedRectangleIndex == index ? 1 : 0)
             )
             .onTapGesture {
                 selectedRectangleIndex = index
                 speakText("word\(index + 1)")
                 // 默认矩形点击时不更新单词数据
             }
+    }
+    
+    // MARK: - 高亮文本功能
+    
+    /// 获取指定单词的高亮范围
+    private func getHighlightRanges(for word: String) -> [HighlightRange] {
+        // 从WordDataManager获取高亮信息
+        if let wordDetail = wordDataManager.getWordDetail(by: word),
+           let highlight = wordDetail.highlight,
+           let englishHighlights = highlight.english {
+            return englishHighlights
+        }
+        return []
+    }
+    
+    /// 创建高亮文本
+    private func createHighlightedText(text: String, highlightRanges: [HighlightRange], fontSize: CGFloat, fontWeight: Font.Weight) -> some View {
+        return HStack(spacing: 0) {
+            ForEach(0..<text.count, id: \.self) { index in
+                let character = String(text[text.index(text.startIndex, offsetBy: index)])
+                let color = getColorForIndex(index, ranges: highlightRanges)
+                
+                Text(character)
+                    .font(.system(size: fontSize, weight: fontWeight))
+                    .foregroundColor(color)
+            }
+        }
+    }
+    
+    /// 获取指定索引位置的颜色
+    private func getColorForIndex(_ index: Int, ranges: [HighlightRange]) -> Color {
+        for range in ranges {
+            if index >= range.start && index < range.end {
+                switch range.color {
+                case "red":
+                    return Color.red
+                case "blue":
+                    return Color.blue
+                case "green":
+                    return Color.green
+                case "orange":
+                    return Color.orange
+                case "purple":
+                    return Color.purple
+                default:
+                    return Color.red
+                }
+            }
+        }
+        return Color.black
     }
     
     // MARK: - 朗读功能
@@ -798,12 +875,15 @@ extension Array {
 
 #Preview {
     WordDetailView(
-        wordData: WordData(
-            mainWord: "black",
-            translation: "黑色的",
-            relatedWord1: "dark",
-            relatedWord2: "night"
-        ),
+        wordDetail: WordDetail(
+              id: 1,
+              english: "black",
+              phonetic: "/blæk/",
+              chinese: "黑色的",
+              phrases: [],
+              examples: [],
+              highlight: nil
+          ),
         circleColor: Color.black
     )
 }
