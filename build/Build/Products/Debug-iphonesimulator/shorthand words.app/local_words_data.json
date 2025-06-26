@@ -1,0 +1,325 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_words": 10,
+    "core_word_position": 1,
+    "created_date": "2024-01-15",
+    "description": "本地单词数据 - out系列单词"
+  },
+  "core_word": {
+    "english": "out",
+    "phonetic": "/aʊt/",
+    "chinese": "外面；出去",
+    "highlight": {
+      "enabled": true,
+      "letters": ["o", "u", "t"]
+    }
+  },
+  "home_page_words": [
+    "out",
+    "about",
+    "sprout"
+  ],
+  "all_words": [
+    {
+      "id": 1,
+      "english": "out",
+      "phonetic": "/aʊt/",
+      "chinese": "外面；出去",
+      "phrases": [
+        {
+          "english": "go out",
+          "chinese": "出去"
+        },
+        {
+          "english": "find out",
+          "chinese": "找出；发现"
+        }
+      ],
+      "examples": [
+        {
+          "english": "She went out to buy some milk.",
+          "chinese": "她出去买牛奶了。"
+        },
+        {
+          "english": "The lights are out.",
+          "chinese": "灯熄了。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o", "u", "t"]
+      }
+    },
+    {
+      "id": 2,
+      "english": "about",
+      "phonetic": "/əˈbaʊt/",
+      "chinese": "关于；大约",
+      "phrases": [
+        {
+          "english": "talk about",
+          "chinese": "谈论"
+        },
+        {
+          "english": "think about",
+          "chinese": "考虑"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Tell me about your trip.",
+          "chinese": "告诉我你的旅行。"
+        },
+        {
+          "english": "It's about time to go.",
+          "chinese": "该走了。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o", "u", "t"]
+      }
+    },
+    {
+      "id": 3,
+      "english": "sprout",
+      "phonetic": "/spraʊt/",
+      "chinese": "发芽；嫩芽",
+      "phrases": [
+        {
+          "english": "bean sprout",
+          "chinese": "豆芽"
+        },
+        {
+          "english": "sprout up",
+          "chinese": "迅速成长"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The seeds began to sprout.",
+          "chinese": "种子开始发芽了。"
+        },
+        {
+          "english": "New buildings are sprouting everywhere.",
+          "chinese": "新建筑到处涌现。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o", "u", "t"]
+      }
+    },
+    {
+      "id": 4,
+      "english": "outlook",
+      "phonetic": "/ˈaʊtlʊk/",
+      "chinese": "前景；观点",
+      "phrases": [
+        {
+          "english": "economic outlook",
+          "chinese": "经济前景"
+        },
+        {
+          "english": "positive outlook",
+          "chinese": "积极的态度"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The weather outlook is good.",
+          "chinese": "天气预报很好。"
+        },
+        {
+          "english": "She has a positive outlook on life.",
+          "chinese": "她对生活持积极态度。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o", "u", "t"]
+      }
+    },
+    {
+      "id": 5,
+      "english": "outline",
+      "phonetic": "/ˈaʊtlaɪn/",
+      "chinese": "轮廓；大纲",
+      "phrases": [
+        {
+          "english": "rough outline",
+          "chinese": "粗略轮廓"
+        },
+        {
+          "english": "outline plan",
+          "chinese": "概要计划"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I can see the outline of the mountain.",
+          "chinese": "我能看到山的轮廓。"
+        },
+        {
+          "english": "Please outline your proposal.",
+          "chinese": "请概述你的提案。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o", "u", "t"]
+      }
+    },
+    {
+      "id": 6,
+      "english": "outside",
+      "phonetic": "/ˌaʊtˈsaɪd/",
+      "chinese": "外面；外部",
+      "phrases": [
+        {
+          "english": "go outside",
+          "chinese": "到外面去"
+        },
+        {
+          "english": "outside world",
+          "chinese": "外部世界"
+        }
+      ],
+      "examples": [
+        {
+          "english": "It's cold outside.",
+          "chinese": "外面很冷。"
+        },
+        {
+          "english": "The box is painted outside.",
+          "chinese": "盒子外面涂了漆。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o", "u", "t"]
+      }
+    },
+    {
+      "id": 7,
+      "english": "outdoor",
+      "phonetic": "/ˈaʊtdɔːr/",
+      "chinese": "户外的；室外的",
+      "phrases": [
+        {
+          "english": "outdoor activities",
+          "chinese": "户外活动"
+        },
+        {
+          "english": "outdoor sports",
+          "chinese": "户外运动"
+        }
+      ],
+      "examples": [
+        {
+          "english": "We love outdoor adventures.",
+          "chinese": "我们喜欢户外探险。"
+        },
+        {
+          "english": "The outdoor temperature is rising.",
+          "chinese": "室外温度在上升。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o", "u", "t"]
+      }
+    },
+    {
+      "id": 8,
+      "english": "door",
+      "phonetic": "/dɔːr/",
+      "chinese": "门",
+      "phrases": [
+        {
+          "english": "open the door",
+          "chinese": "开门"
+        },
+        {
+          "english": "next door",
+          "chinese": "隔壁"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Please close the door.",
+          "chinese": "请关门。"
+        },
+        {
+          "english": "Someone is knocking at the door.",
+          "chinese": "有人在敲门。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o"]
+      }
+    },
+    {
+      "id": 9,
+      "english": "doormat",
+      "phonetic": "/ˈdɔːrmæt/",
+      "chinese": "门垫",
+      "phrases": [
+        {
+          "english": "welcome doormat",
+          "chinese": "欢迎门垫"
+        },
+        {
+          "english": "wipe your feet on the doormat",
+          "chinese": "在门垫上擦脚"
+        }
+      ],
+      "examples": [
+        {
+          "english": "There's a new doormat at the entrance.",
+          "chinese": "入口处有一个新门垫。"
+        },
+        {
+          "english": "Don't be a doormat to others.",
+          "chinese": "不要被别人踩在脚下。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o"]
+      }
+    },
+    {
+      "id": 10,
+      "english": "door-bell",
+      "phonetic": "/ˈdɔːrbel/",
+      "chinese": "门铃",
+      "phrases": [
+        {
+          "english": "ring the door-bell",
+          "chinese": "按门铃"
+        },
+        {
+          "english": "wireless door-bell",
+          "chinese": "无线门铃"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The door-bell is broken.",
+          "chinese": "门铃坏了。"
+        },
+        {
+          "english": "I heard the door-bell ring.",
+          "chinese": "我听到门铃响了。"
+        }
+      ],
+      "highlight": {
+        "enabled": true,
+        "letters": ["o"]
+      }
+    }
+  ]
+}

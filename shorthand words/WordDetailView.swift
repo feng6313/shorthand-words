@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct WordDetailView: View {
     let wordData: WordData
@@ -13,6 +14,9 @@ struct WordDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedRectangleIndex: Int? = nil
     @StateObject private var mindMapManager = MindMapDataManager()
+    @StateObject private var wordDataManager = WordDataManager()
+    @State private var speechSynthesizer = AVSpeechSynthesizer()
+    @State private var selectedWordData: WordData? = nil
     
     // 当前显示的思维图ID（可以根据需要动态设置）
     private let currentMindMapId = 1
@@ -41,8 +45,9 @@ struct WordDetailView: View {
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color(hex: "ffffff"))
                         )
-                    
-                    Spacer(minLength: 12)
+                        .onTapGesture {
+                            speakText(wordData.mainWord)
+                        }
                 }
                 .padding(.horizontal, 12)
                 .padding(.top, 12)
@@ -55,19 +60,25 @@ struct WordDetailView: View {
                     .padding(.top, 12)
                     .overlay(
                         VStack(alignment: .center, spacing: 0) {
-                            // 单词 - 距离上边缘32点
-                            Text(wordData.mainWord)
+                            // 单词 - 距离上边缘40点
+                            Text((selectedWordData ?? wordData).mainWord)
                                 .font(.system(size: 50, weight: .semibold))
                                 .foregroundColor(Color(hex: "000000"))
-                                .padding(.top, 32)
+                                .padding(.top, 40)
+                                .onTapGesture {
+                                    speakText((selectedWordData ?? wordData).mainWord)
+                                }
                             
                             // 音标 - 紧贴单词
-                            Text("/ˈeksəmpl/")
+                            Text((selectedWordData ?? wordData).phonetic)
                                 .font(.system(size: 24, weight: .medium))
                                 .foregroundColor(Color(hex: "5D8DFD"))
+                                .onTapGesture {
+                                    speakText((selectedWordData ?? wordData).mainWord)
+                                }
                             
                             // 翻译 - 距离卡片上边缘145点
-                            Text("示例；例子；榜样")
+                            Text((selectedWordData ?? wordData).translation)
                                 .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(Color(hex: "000000"))
                                 .padding(.top, 145 - 32 - 50 - 24)
@@ -80,23 +91,33 @@ struct WordDetailView: View {
                             
                             // 词组及翻译 - 距离卡片上边缘220点
                             VStack(alignment: .center, spacing: 2) {
-                                Text("for example")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color(hex: "000000"))
-                                Text("例如；比如")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color(hex: "000000"))
+                                if let firstPhrase = (selectedWordData ?? wordData).phrases.first {
+                                    Text(firstPhrase.english)
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(Color(hex: "000000"))
+                                        .onTapGesture {
+                                            speakText(firstPhrase.english)
+                                        }
+                                    Text(firstPhrase.chinese)
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(Color(hex: "000000"))
+                                }
                             }
                             .padding(.top, 220 - 191 - 5)
                             
                             // 例句及翻译 - 距离卡片上边缘248点
                             VStack(alignment: .center, spacing: 2) {
-                                Text("This is a good example of teamwork.")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color(hex: "000000"))
-                                Text("这是团队合作的一个好例子。")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color(hex: "000000"))
+                                if let firstExample = (selectedWordData ?? wordData).examples.first {
+                                    Text(firstExample.english)
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(Color(hex: "000000"))
+                                        .onTapGesture {
+                                            speakText(firstExample.english)
+                                        }
+                                    Text(firstExample.chinese)
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(Color(hex: "000000"))
+                                }
                             }
                             .padding(.top, 248 - 220 - 14)
                             
@@ -123,102 +144,550 @@ struct WordDetailView: View {
                     .overlay(
                         VStack(spacing: 0) {
                             if let mindMapData = mindMapManager.getMindMap(by: currentMindMapId) {
-                                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 24), count: 3), spacing: 24) {
-                                    // 第一个矩形
-                                    createMindMapRectangle(index: 0, word: mindMapData.words[safe: 0], customColor: "#F8F8F8")
+                                VStack(spacing: 0) {
+                                    // 第一行：矩形1、箭头、矩形2、箭头、矩形3
+                                    HStack(spacing: 2) {
+                                        createMindMapRectangle(index: 0, word: mindMapData.words[safe: 0], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 1, word: mindMapData.words[safe: 1], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 2, word: mindMapData.words[safe: 2], customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第二个矩形
-                                    createMindMapRectangle(index: 1, word: mindMapData.words[safe: 1], customColor: "#F8F8F8")
+                                    // 第一行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第三个矩形
-                                    createMindMapRectangle(index: 2, word: mindMapData.words[safe: 2], customColor: "#F8F8F8")
+                                    // 第二行：矩形4、矩形5、矩形6
+                                    HStack(spacing: 2) {
+                                        createMindMapRectangle(index: 3, word: mindMapData.words[safe: 3], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 4, word: mindMapData.words[safe: 4], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 5, word: mindMapData.words[safe: 5], customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第四个矩形
-                                    createMindMapRectangle(index: 3, word: mindMapData.words[safe: 3], customColor: "#F8F8F8")
+                                    // 第二行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第五个矩形
-                                    createMindMapRectangle(index: 4, word: mindMapData.words[safe: 4], customColor: "#F8F8F8")
+                                    // 第三行：矩形7、箭头、矩形8、箭头、矩形9
+                                    HStack(spacing: 2) {
+                                        createMindMapRectangle(index: 6, word: mindMapData.words[safe: 6], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 7, word: mindMapData.words[safe: 7], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 8, word: mindMapData.words[safe: 8], customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第六个矩形
-                                    createMindMapRectangle(index: 5, word: mindMapData.words[safe: 5], customColor: "#F8F8F8")
+                                    // 第三行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第七个矩形
-                                    createMindMapRectangle(index: 6, word: mindMapData.words[safe: 6], customColor: "#F8F8F8")
+                                    // 第四行：矩形10、箭头、矩形11、箭头、矩形12
+                                    HStack(spacing: 2) {
+                                        createMindMapRectangle(index: 9, word: mindMapData.words[safe: 9], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 10, word: mindMapData.words[safe: 10], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 11, word: mindMapData.words[safe: 11], customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第八个矩形
-                                    createMindMapRectangle(index: 7, word: mindMapData.words[safe: 7], customColor: "#F8F8F8")
+                                    // 第四行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第九个矩形
-                                    createMindMapRectangle(index: 8, word: mindMapData.words[safe: 8], customColor: "#F8F8F8")
-                                    
-                                    // 第十个矩形
-                                    createMindMapRectangle(index: 9, word: mindMapData.words[safe: 9], customColor: "#F8F8F8")
-                                    
-                                    // 第十一个矩形
-                                    createMindMapRectangle(index: 10, word: mindMapData.words[safe: 10], customColor: "#F8F8F8")
-                                    
-                                    // 第十二个矩形
-                                    createMindMapRectangle(index: 11, word: mindMapData.words[safe: 11], customColor: "#F8F8F8")
-                                    
-                                    // 第十三个矩形
-                                    createMindMapRectangle(index: 12, word: mindMapData.words[safe: 12], customColor: "#F8F8F8")
-                                    
-                                    // 第十四个矩形
-                                    createMindMapRectangle(index: 13, word: mindMapData.words[safe: 13], customColor: "#F8F8F8")
-                                    
-                                    // 第十五个矩形
-                                    createMindMapRectangle(index: 14, word: mindMapData.words[safe: 14], customColor: "#F8F8F8")
+                                    // 第五行：矩形13、箭头、矩形14、箭头、矩形15
+                                    HStack(spacing: 2) {
+                                        createMindMapRectangle(index: 12, word: mindMapData.words[safe: 12], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 13, word: mindMapData.words[safe: 13], customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createMindMapRectangle(index: 14, word: mindMapData.words[safe: 14], customColor: "#F8F8F8")
+                                    }
                                 }
                                 .padding(.horizontal, 12)
                                 .padding(.top, 32)
                                 .padding(.bottom, 32)
                             } else {
                                 // 如果没有数据，显示默认的15个空矩形
-                                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 24), count: 3), spacing: 24) {
-                                    // 第一个矩形
-                                    createDefaultRectangle(index: 0, customColor: "#F8F8F8")
+                                VStack(spacing: 0) {
+                                    // 第一行：矩形1、箭头、矩形2、箭头、矩形3
+                                    HStack(spacing: 2) {
+                                        createDefaultRectangle(index: 0, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 1, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 2, customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第二个矩形
-                                    createDefaultRectangle(index: 1, customColor: "#F8F8F8")
+                                    // 第一行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第三个矩形
-                                    createDefaultRectangle(index: 2, customColor: "#F8F8F8")
+                                    // 第二行：矩形4、矩形5、矩形6
+                                    HStack(spacing: 2) {
+                                        createDefaultRectangle(index: 3, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 4, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 5, customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第四个矩形
-                                    createDefaultRectangle(index: 3, customColor: "#F8F8F8")
+                                    // 第二行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第五个矩形
-                                    createDefaultRectangle(index: 4, customColor: "#F8F8F8")
+                                    // 第三行：矩形7、箭头、矩形8、箭头、矩形9
+                                    HStack(spacing: 2) {
+                                        createDefaultRectangle(index: 6, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 7, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 8, customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第六个矩形
-                                    createDefaultRectangle(index: 5, customColor: "#F8F8F8")
+                                    // 第三行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第七个矩形
-                                    createDefaultRectangle(index: 6, customColor: "#F8F8F8")
+                                    // 第四行：矩形10、箭头、矩形11、箭头、矩形12
+                                    HStack(spacing: 2) {
+                                        createDefaultRectangle(index: 9, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 10, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 11, customColor: "#F8F8F8")
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第八个矩形
-                                    createDefaultRectangle(index: 7, customColor: "#F8F8F8")
+                                    // 第四行下方的向下箭头
+                                    HStack(spacing: 2) {
+                                        // 左列箭头 - 与第一个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 中列箭头 - 与第二个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                        
+                                        // 水平箭头占位
+                                        Spacer()
+                                            .frame(width: 20)
+                                        
+                                        // 右列箭头 - 与第三个矩形对齐
+                                        HStack {
+                                            Spacer()
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .rotationEffect(.degrees(90))
+                                            Spacer()
+                                        }
+                                        .frame(width: 100) // 与矩形宽度一致
+                                    }
+                                    .padding(.bottom, 2)
                                     
-                                    // 第九个矩形
-                                    createDefaultRectangle(index: 8, customColor: "#F8F8F8")
-                                    
-                                    // 第十个矩形
-                                    createDefaultRectangle(index: 9, customColor: "#F8F8F8")
-                                    
-                                    // 第十一个矩形
-                                    createDefaultRectangle(index: 10, customColor: "#F8F8F8")
-                                    
-                                    // 第十二个矩形
-                                    createDefaultRectangle(index: 11, customColor: "#F8F8F8")
-                                    
-                                    // 第十三个矩形
-                                    createDefaultRectangle(index: 12, customColor: "#F8F8F8")
-                                    
-                                    // 第十四个矩形
-                                    createDefaultRectangle(index: 13, customColor: "#F8F8F8")
-                                    
-                                    // 第十五个矩形
-                                    createDefaultRectangle(index: 14, customColor: "#F8F8F8")
+                                    // 第五行：矩形13、箭头、矩形14、箭头、矩形15
+                                    HStack(spacing: 2) {
+                                        createDefaultRectangle(index: 12, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 13, customColor: "#F8F8F8")
+                                        
+                                        Image("arrow")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        
+                                        createDefaultRectangle(index: 14, customColor: "#F8F8F8")
+                                    }
                                 }
                                 .padding(.horizontal, 12)
                                 .padding(.top, 32)
@@ -265,6 +734,9 @@ struct WordDetailView: View {
             )
             .onTapGesture {
                 selectedRectangleIndex = index
+                speakText(displayWord.english)
+                // 根据点击的单词更新上方显示的单词数据
+                selectedWordData = wordDataManager.getWordData(for: displayWord.english)
             }
     }
     
@@ -294,7 +766,24 @@ struct WordDetailView: View {
             )
             .onTapGesture {
                 selectedRectangleIndex = index
+                speakText("word\(index + 1)")
+                // 默认矩形点击时不更新单词数据
             }
+    }
+    
+    // MARK: - 朗读功能
+    
+    /// 朗读英文文本
+    private func speakText(_ text: String) {
+        // 停止当前朗读
+        speechSynthesizer.stopSpeaking(at: .immediate)
+        
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.rate = 0.5
+        utterance.volume = 1.0
+        
+        speechSynthesizer.speak(utterance)
     }
 }
 

@@ -1,2 +1,0 @@
-Target dependency graph (1 target)
-Target 'shorthand words' in project 'shorthand words' (no dependencies)

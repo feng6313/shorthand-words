@@ -6,7 +6,7 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>322E11F9-1376-4F72-93B1-1652AC8666CD</key>
+		<key>15ACFB18-D97C-4BC3-96E2-D5525E63DCC5</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>322E11F9-1376-4F72-93B1-1652AC8666CD.xcactivitylog</string>
+			<string>15ACFB18-D97C-4BC3-96E2-D5525E63DCC5.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -38,17 +38,17 @@
 			<key>schemeIdentifier-sharedScheme</key>
 			<integer>1</integer>
 			<key>signature</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
+			<string>Cleaning project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>772598785.19179106</real>
+			<real>772627211.65843105</real>
 			<key>timeStoppedRecording</key>
-			<real>772598793.25962102</real>
+			<real>772627212.01343203</real>
 			<key>title</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
+			<string>Cleaning project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>322E11F9-1376-4F72-93B1-1652AC8666CD</string>
+			<string>15ACFB18-D97C-4BC3-96E2-D5525E63DCC5</string>
 		</dict>
-		<key>B2F70B49-31D8-4642-98CE-A22E5CB845BB</key>
+		<key>39896299-EED6-4A63-AF52-830E917AF527</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,7 +57,49 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>B2F70B49-31D8-4642-98CE-A22E5CB845BB.xcactivitylog</string>
+			<string>39896299-EED6-4A63-AF52-830E917AF527.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>2</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>shorthand words project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>shorthand words</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project shorthand words with scheme shorthand words</string>
+			<key>timeStartedRecording</key>
+			<real>772627212.02255797</real>
+			<key>timeStoppedRecording</key>
+			<real>772627226.82702601</real>
+			<key>title</key>
+			<string>Building project shorthand words with scheme shorthand words</string>
+			<key>uniqueIdentifier</key>
+			<string>39896299-EED6-4A63-AF52-830E917AF527</string>
+		</dict>
+		<key>8F282BF6-0BB6-41BC-B823-510D839F09A1</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>8F282BF6-0BB6-41BC-B823-510D839F09A1.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +124,13 @@
 			<key>signature</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>772609005.14207804</real>
+			<real>772625393.11013103</real>
 			<key>timeStoppedRecording</key>
-			<real>772609014.442451</real>
+			<real>772625407.38162196</real>
 			<key>title</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>B2F70B49-31D8-4642-98CE-A22E5CB845BB</string>
+			<string>8F282BF6-0BB6-41BC-B823-510D839F09A1</string>
 		</dict>
 	</dict>
 </dict>
