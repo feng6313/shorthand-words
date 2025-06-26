@@ -90,13 +90,19 @@ struct ContentView: View {
                         GridItem(.fixed(blockWidth), spacing: 0)
                     ], spacing: spacing) {
                         ForEach(wordsData.indices, id: \.self) { index in
-                            WordBlockView(
+                            NavigationLink(destination: WordDetailView(
                                 wordData: wordsData[index],
-                                blockWidth: blockWidth,
-                                blockHeight: blockHeight,
-                                circleColor: Color(hex: circleColors[index % circleColors.count]),
-                                index: index
-                            )
+                                circleColor: Color(hex: circleColors[index % circleColors.count])
+                            )) {
+                                WordBlockView(
+                                    wordData: wordsData[index],
+                                    blockWidth: blockWidth,
+                                    blockHeight: blockHeight,
+                                    circleColor: Color(hex: circleColors[index % circleColors.count]),
+                                    index: index
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .padding(.horizontal, padding)
@@ -147,6 +153,7 @@ struct WordBlockView: View {
     let blockHeight: CGFloat
     let circleColor: Color
     let index: Int
+    @State private var isCollected: Bool = false
     
     var body: some View {
         RoundedRectangle(cornerRadius: 28)
@@ -248,6 +255,19 @@ struct WordBlockView: View {
                                     y: blockHeight - 12 - 13
                                 )
                         )
+                    
+                    // 收藏图标（右下角）
+                    Button(action: {
+                        isCollected.toggle()
+                    }) {
+                        Image(isCollected ? "collect_b" : "collect_w")
+                            .resizable()
+                            .frame(width: 26, height: 26)
+                    }
+                    .position(
+                        x: blockWidth - 12 - 13,
+                        y: blockHeight - 12 - 13
+                    )
                 }
             )
             .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)

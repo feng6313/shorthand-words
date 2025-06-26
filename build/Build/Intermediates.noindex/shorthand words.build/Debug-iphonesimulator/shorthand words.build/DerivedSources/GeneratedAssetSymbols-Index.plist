@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>colors</key>
+	<array/>
+	<key>images</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameBack</string>
+			<key>relativePath</key>
+			<string>./back.imageset</string>
+			<key>swiftSymbol</key>
+			<string>back</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameCollectB</string>
+			<key>relativePath</key>
+			<string>./collect_b.imageset</string>
+			<key>swiftSymbol</key>
+			<string>collectB</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameCollectW</string>
+			<key>relativePath</key>
+			<string>./collect_w.imageset</string>
+			<key>swiftSymbol</key>
+			<string>collectW</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameParting</string>
+			<key>relativePath</key>
+			<string>./parting.imageset</string>
+			<key>swiftSymbol</key>
+			<string>parting</string>
+		</dict>
+	</array>
+	<key>symbols</key>
+	<array/>
+</dict>
+</plist>

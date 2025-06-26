@@ -1,0 +1,24 @@
+{
+  "source": "/Users/feng/Documents/shorthand words/shorthand words/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "速记1600词",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 113
+        }
+      },
+      {
+        "comment": "",
+        "key": "9",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 250
+        }
+      }
+    ]
+  },
+  "version": 1
+}
