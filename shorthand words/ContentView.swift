@@ -66,52 +66,34 @@ struct ContentView: View {
                                 if let dataManager = dataManagers[groupId],
                                    let firstWordDetail = dataManager.getFirstWordDetail() {
                                     NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[index % circleColors.count]))) {
-                                        VStack {
-                                            // 数据组标题
-                                            Text(groupId)
-                                                .font(.system(size: 12, weight: .medium))
-                                                .foregroundColor(.gray)
-                                                .padding(.bottom, 4)
-                                            
-                                            WordBlockView(
-                                                wordDetail: firstWordDetail,
-                                                circleColor: Color(hex: circleColors[index % circleColors.count]),
-                                                blockNumber: index + 1,
-                                                wordCount: dataManager.allWordsCount,
-                                                homePageWords: dataManager.getHomePageWords().map { $0.english }
-                                            )
-                                        }
+                                        WordBlockView(
+                                            wordDetail: firstWordDetail,
+                                            circleColor: Color(hex: circleColors[index % circleColors.count]),
+                                            blockNumber: index + 1,
+                                            wordCount: dataManager.allWordsCount,
+                                            homePageWords: dataManager.getHomePageWords().map { $0.english }
+                                        )
                                     }
                                     .buttonStyle(PlainButtonStyle())
                                 } else {
                                     // 数据组加载失败或无数据的占位符
-                                    VStack {
-                                        Text(groupId)
-                                            .font(.system(size: 12, weight: .medium))
-                                            .foregroundColor(.gray)
-                                            .padding(.bottom, 4)
-                                        
-                                        RoundedRectangle(cornerRadius: 28)
-                                            .fill(Color.gray.opacity(0.3))
-                                            .frame(height: 200)
-                                            .overlay(
-                                                VStack {
-                                                    Image(systemName: "exclamationmark.triangle")
-                                                        .font(.system(size: 24))
-                                                        .foregroundColor(.gray)
-                                                    Text("数据加载失败")
-                                                        .font(.system(size: 14))
-                                                        .foregroundColor(.gray)
-                                                }
-                                            )
-                                    }
+                                    RoundedRectangle(cornerRadius: 28)
+                                        .fill(Color.gray.opacity(0.3))
+                                        .frame(height: 200)
+                                        .overlay(
+                                            VStack {
+                                                Image(systemName: "exclamationmark.triangle")
+                                                    .font(.system(size: 24))
+                                                    .foregroundColor(.gray)
+                                                Text("数据加载失败")
+                                                    .font(.system(size: 14))
+                                                    .foregroundColor(.gray)
+                                            }
+                                        )
                                 }
                             }
                         }
                         .padding(.horizontal, 12)
-                    }
-                    .refreshable {
-                        await refreshAllDataAsync()
                     }
                 }
             }
@@ -190,55 +172,7 @@ struct ContentView: View {
         updateAllLoadingStates()
     }
     
-    // 异步刷新方法，用于下拉刷新
-    private func refreshAllDataAsync() async {
-        await MainActor.run {
-            isLoading = true
-            loadError = nil
-        }
-        
-        // 刷新所有数据管理器
-        await MainActor.run {
-            for (_, dataManager) in dataManagers {
-                dataManager.refreshData()
-            }
-        }
-        
-        // 等待加载完成
-        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-            func checkLoadingState() {
-                Task { @MainActor in
-                    let allLoaded = dataManagers.values.allSatisfy { !$0.isLoading }
-                    
-                    if allLoaded {
-                        // 所有数据组加载完成
-                        isLoading = false
-                        
-                        // 检查是否有错误
-                        let errors = dataManagers.compactMap { (groupId, manager) in
-                            manager.errorMessage != nil ? "\(groupId): \(manager.errorMessage!)" : nil
-                        }
-                        
-                        if !errors.isEmpty {
-                            loadError = "部分数据组加载失败:\n\(errors.joined(separator: "\n"))"
-                        } else {
-                            loadError = nil
-                        }
-                        
-                        continuation.resume()
-                    } else {
-                        // 仍有数据组在加载中，继续检查
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            checkLoadingState()
-                        }
-                    }
-                }
-            }
-            
-            checkLoadingState()
-        }
     }
-}
 
 // Color扩展已在WordDetailView中定义
 
