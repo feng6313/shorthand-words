@@ -30,24 +30,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                // 顶部工具栏
-                HStack {
-                    Text("数据组总数: \(dataGroups.count)")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.gray)
-                    
-                    Spacer()
-                    
-                    // 刷新按钮
-                    Button("刷新全部") {
-                        refreshAllData()
-                    }
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.blue)
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
+            VStack(spacing: 0) {
                 
                 if isLoading {
                     // 加载状态
@@ -127,10 +110,14 @@ struct ContentView: View {
                         }
                         .padding(.horizontal, 12)
                     }
+                    .refreshable {
+                        await refreshAllDataAsync()
+                    }
                 }
             }
             .background(Color(hex: "f3f3f3"))
             .navigationTitle("速记1600词")
+            .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {
             loadAllData()
@@ -208,6 +195,53 @@ struct ContentView: View {
         
         // 监听加载状态变化
         updateAllLoadingStates()
+    }
+    
+    // 异步刷新方法，用于下拉刷新
+    private func refreshAllDataAsync() async {
+        await MainActor.run {
+            isLoading = true
+            loadError = nil
+        }
+        
+        // 刷新所有数据管理器
+        await MainActor.run {
+            for (_, dataManager) in dataManagers {
+                dataManager.refreshData()
+            }
+        }
+        
+        // 等待加载完成
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            func checkLoadingState() {
+                let allLoaded = dataManagers.values.allSatisfy { !$0.isLoading }
+                
+                if allLoaded {
+                    // 所有数据组加载完成
+                    isLoading = false
+                    
+                    // 检查是否有错误
+                    let errors = dataManagers.compactMap { (groupId, manager) in
+                        manager.errorMessage != nil ? "\(groupId): \(manager.errorMessage!)" : nil
+                    }
+                    
+                    if !errors.isEmpty {
+                        loadError = "部分数据组加载失败:\n\(errors.joined(separator: "\n"))"
+                    } else {
+                        loadError = nil
+                    }
+                    
+                    continuation.resume()
+                } else {
+                    // 仍有数据组在加载中，继续检查
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        checkLoadingState()
+                    }
+                }
+            }
+            
+            checkLoadingState()
+        }
     }
 }
 
