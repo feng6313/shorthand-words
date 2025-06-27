@@ -132,28 +132,21 @@ struct ContentView: View {
         
         // 首先获取可用的数据组列表
         Task {
-            do {
-                let availableGroups = await cloudDataManager.getAvailableDataGroups()
+            let availableGroups = await cloudDataManager.getAvailableDataGroups()
+            
+            await MainActor.run {
+                self.dataGroups = availableGroups
                 
-                await MainActor.run {
-                    self.dataGroups = availableGroups
-                    
-                    // 初始化所有数据管理器
-                    for groupId in availableGroups {
-                        let dataManager = WordDataManager()
-                        dataManager.setCurrentGroup(groupId)
-                        dataManagers[groupId] = dataManager
-                    }
-                    
-                    // 监听所有数据管理器的状态变化
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self.updateAllLoadingStates()
-                    }
+                // 初始化所有数据管理器
+                for groupId in availableGroups {
+                    let dataManager = WordDataManager()
+                    dataManager.setCurrentGroup(groupId)
+                    dataManagers[groupId] = dataManager
                 }
-            } catch {
-                await MainActor.run {
-                    self.isLoading = false
-                    self.loadError = "获取数据组列表失败: \(error.localizedDescription)"
+                
+                // 监听所有数据管理器的状态变化
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.updateAllLoadingStates()
                 }
             }
         }
@@ -214,28 +207,30 @@ struct ContentView: View {
         // 等待加载完成
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
             func checkLoadingState() {
-                let allLoaded = dataManagers.values.allSatisfy { !$0.isLoading }
-                
-                if allLoaded {
-                    // 所有数据组加载完成
-                    isLoading = false
+                Task { @MainActor in
+                    let allLoaded = dataManagers.values.allSatisfy { !$0.isLoading }
                     
-                    // 检查是否有错误
-                    let errors = dataManagers.compactMap { (groupId, manager) in
-                        manager.errorMessage != nil ? "\(groupId): \(manager.errorMessage!)" : nil
-                    }
-                    
-                    if !errors.isEmpty {
-                        loadError = "部分数据组加载失败:\n\(errors.joined(separator: "\n"))"
+                    if allLoaded {
+                        // 所有数据组加载完成
+                        isLoading = false
+                        
+                        // 检查是否有错误
+                        let errors = dataManagers.compactMap { (groupId, manager) in
+                            manager.errorMessage != nil ? "\(groupId): \(manager.errorMessage!)" : nil
+                        }
+                        
+                        if !errors.isEmpty {
+                            loadError = "部分数据组加载失败:\n\(errors.joined(separator: "\n"))"
+                        } else {
+                            loadError = nil
+                        }
+                        
+                        continuation.resume()
                     } else {
-                        loadError = nil
-                    }
-                    
-                    continuation.resume()
-                } else {
-                    // 仍有数据组在加载中，继续检查
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        checkLoadingState()
+                        // 仍有数据组在加载中，继续检查
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            checkLoadingState()
+                        }
                     }
                 }
             }
