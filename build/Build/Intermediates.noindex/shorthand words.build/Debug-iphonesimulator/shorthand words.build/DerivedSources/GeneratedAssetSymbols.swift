@@ -31,6 +31,9 @@ extension DeveloperToolsSupport.ColorResource {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension DeveloperToolsSupport.ImageResource {
 
+    /// The "Image" asset catalog image resource.
+    static let image = DeveloperToolsSupport.ImageResource(name: "Image", bundle: resourceBundle)
+
     /// The "arrow" asset catalog image resource.
     static let arrow = DeveloperToolsSupport.ImageResource(name: "arrow", bundle: resourceBundle)
 
@@ -43,8 +46,23 @@ extension DeveloperToolsSupport.ImageResource {
     /// The "collect_w" asset catalog image resource.
     static let collectW = DeveloperToolsSupport.ImageResource(name: "collect_w", bundle: resourceBundle)
 
+    /// The "down" asset catalog image resource.
+    static let down = DeveloperToolsSupport.ImageResource(name: "down", bundle: resourceBundle)
+
+    /// The "lift" asset catalog image resource.
+    static let lift = DeveloperToolsSupport.ImageResource(name: "lift", bundle: resourceBundle)
+
     /// The "parting" asset catalog image resource.
     static let parting = DeveloperToolsSupport.ImageResource(name: "parting", bundle: resourceBundle)
+
+    /// The "right" asset catalog image resource.
+    static let right = DeveloperToolsSupport.ImageResource(name: "right", bundle: resourceBundle)
+
+    /// The "sss" asset catalog image resource.
+    static let sss = DeveloperToolsSupport.ImageResource(name: "sss", bundle: resourceBundle)
+
+    /// The "up" asset catalog image resource.
+    static let up = DeveloperToolsSupport.ImageResource(name: "up", bundle: resourceBundle)
 
 }
 
@@ -85,6 +103,15 @@ extension SwiftUI.ShapeStyle where Self == SwiftUI.Color {
 @available(macCatalyst, unavailable)
 extension AppKit.NSImage {
 
+    /// The "Image" asset catalog image.
+    static var image: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .image)
+#else
+        .init()
+#endif
+    }
+
     /// The "arrow" asset catalog image.
     static var arrow: AppKit.NSImage {
 #if !targetEnvironment(macCatalyst)
@@ -121,10 +148,55 @@ extension AppKit.NSImage {
 #endif
     }
 
+    /// The "down" asset catalog image.
+    static var down: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .down)
+#else
+        .init()
+#endif
+    }
+
+    /// The "lift" asset catalog image.
+    static var lift: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .lift)
+#else
+        .init()
+#endif
+    }
+
     /// The "parting" asset catalog image.
     static var parting: AppKit.NSImage {
 #if !targetEnvironment(macCatalyst)
         .init(resource: .parting)
+#else
+        .init()
+#endif
+    }
+
+    /// The "right" asset catalog image.
+    static var right: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .right)
+#else
+        .init()
+#endif
+    }
+
+    /// The "sss" asset catalog image.
+    static var sss: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .sss)
+#else
+        .init()
+#endif
+    }
+
+    /// The "up" asset catalog image.
+    static var up: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .up)
 #else
         .init()
 #endif
@@ -137,6 +209,15 @@ extension AppKit.NSImage {
 @available(iOS 17.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
 extension UIKit.UIImage {
+
+    /// The "Image" asset catalog image.
+    static var image: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .image)
+#else
+        .init()
+#endif
+    }
 
     /// The "arrow" asset catalog image.
     static var arrow: UIKit.UIImage {
@@ -174,10 +255,55 @@ extension UIKit.UIImage {
 #endif
     }
 
+    /// The "down" asset catalog image.
+    static var down: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .down)
+#else
+        .init()
+#endif
+    }
+
+    /// The "lift" asset catalog image.
+    static var lift: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .lift)
+#else
+        .init()
+#endif
+    }
+
     /// The "parting" asset catalog image.
     static var parting: UIKit.UIImage {
 #if !os(watchOS)
         .init(resource: .parting)
+#else
+        .init()
+#endif
+    }
+
+    /// The "right" asset catalog image.
+    static var right: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .right)
+#else
+        .init()
+#endif
+    }
+
+    /// The "sss" asset catalog image.
+    static var sss: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .sss)
+#else
+        .init()
+#endif
+    }
+
+    /// The "up" asset catalog image.
+    static var up: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .up)
 #else
         .init()
 #endif

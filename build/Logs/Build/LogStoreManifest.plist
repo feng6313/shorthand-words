@@ -6,48 +6,6 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>15ACFB18-D97C-4BC3-96E2-D5525E63DCC5</key>
-		<dict>
-			<key>className</key>
-			<string>IDECommandLineBuildLog</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
-			<key>fileName</key>
-			<string>15ACFB18-D97C-4BC3-96E2-D5525E63DCC5.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>S</string>
-				<key>totalNumberOfAnalyzerIssues</key>
-				<integer>0</integer>
-				<key>totalNumberOfErrors</key>
-				<integer>0</integer>
-				<key>totalNumberOfTestFailures</key>
-				<integer>0</integer>
-				<key>totalNumberOfWarnings</key>
-				<integer>0</integer>
-			</dict>
-			<key>schemeIdentifier-containerName</key>
-			<string>shorthand words project</string>
-			<key>schemeIdentifier-schemeName</key>
-			<string>shorthand words</string>
-			<key>schemeIdentifier-sharedScheme</key>
-			<integer>1</integer>
-			<key>signature</key>
-			<string>Cleaning project shorthand words with scheme shorthand words</string>
-			<key>timeStartedRecording</key>
-			<real>772627211.65843105</real>
-			<key>timeStoppedRecording</key>
-			<real>772627212.01343203</real>
-			<key>title</key>
-			<string>Cleaning project shorthand words with scheme shorthand words</string>
-			<key>uniqueIdentifier</key>
-			<string>15ACFB18-D97C-4BC3-96E2-D5525E63DCC5</string>
-		</dict>
 		<key>39896299-EED6-4A63-AF52-830E917AF527</key>
 		<dict>
 			<key>className</key>
@@ -90,7 +48,7 @@
 			<key>uniqueIdentifier</key>
 			<string>39896299-EED6-4A63-AF52-830E917AF527</string>
 		</dict>
-		<key>8F282BF6-0BB6-41BC-B823-510D839F09A1</key>
+		<key>62BD9A3A-0AF8-408D-A79D-684DEFA855B0</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -99,7 +57,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>8F282BF6-0BB6-41BC-B823-510D839F09A1.xcactivitylog</string>
+			<string>62BD9A3A-0AF8-408D-A79D-684DEFA855B0.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -122,15 +80,15 @@
 			<key>schemeIdentifier-sharedScheme</key>
 			<integer>1</integer>
 			<key>signature</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
+			<string>Building project shorthand words with scheme shorthand words and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>772625393.11013103</real>
+			<real>772656509.76358199</real>
 			<key>timeStoppedRecording</key>
-			<real>772625407.38162196</real>
+			<real>772656525.23258102</real>
 			<key>title</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
+			<string>Building project shorthand words with scheme shorthand words and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>8F282BF6-0BB6-41BC-B823-510D839F09A1</string>
+			<string>62BD9A3A-0AF8-408D-A79D-684DEFA855B0</string>
 		</dict>
 	</dict>
 </dict>

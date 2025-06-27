@@ -110,7 +110,7 @@ struct WordDetailView: View {
                             // 翻译 - 距离卡片上边缘145点
                             Text((selectedWordDetail ?? wordDetail).chinese)
                                 .font(.system(size: 18, weight: .medium))
-                                .foregroundColor(Color(hex: "000000"))
+                                .foregroundColor(Color(hex: "000000").opacity(1)) // 确保单词卡上的中文文字不透明
                                 .padding(.top, 145 - 32 - 50 - 24)
                             
                             // 分割图标 - 距离卡片上边缘191点
@@ -124,13 +124,13 @@ struct WordDetailView: View {
                                 if let firstPhrase = (selectedWordDetail ?? wordDetail).phrases.first {
                                     Text(firstPhrase.english)
                                         .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(Color(hex: "000000"))
+                                        .foregroundColor(Color(hex: "000000").opacity(1)) // 确保词组英文文字不透明
                                         .onTapGesture {
                                             speakText(firstPhrase.english)
                                         }
                                     Text(firstPhrase.chinese)
                                         .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(Color(hex: "000000"))
+                                        .foregroundColor(Color(hex: "000000").opacity(1)) // 确保词组中文文字不透明
                                 }
                             }
                             .padding(.top, 220 - 191 - 5)
@@ -140,13 +140,13 @@ struct WordDetailView: View {
                                 if let firstExample = (selectedWordDetail ?? wordDetail).examples.first {
                                     Text(firstExample.english)
                                         .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(Color(hex: "000000"))
+                                        .foregroundColor(Color(hex: "000000").opacity(1)) // 确保例句英文文字不透明
                                         .onTapGesture {
                                             speakText(firstExample.english)
                                         }
                                     Text(firstExample.chinese)
                                         .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(Color(hex: "000000"))
+                                        .foregroundColor(Color(hex: "000000").opacity(1)) // 确保例句中文文字不透明
                                 }
                             }
                             .padding(.top, 248 - 220 - 14)
@@ -169,8 +169,16 @@ struct WordDetailView: View {
                 // 思维图背景
                 RoundedRectangle(cornerRadius: 28)
                     .fill(Color(hex: "ffffff"))
+                    .opacity(0)
                     .frame(width: geometry.size.width - 24, height: 440) // 32点上空白 + 5行矩形高度(56*5=280) + 4行矩形间距(24*4=96) + 32点下空白 = 32+280+96+32 = 440
                     .padding(.top, 4)
+                    .background(
+                        // 最底层：sss图标作为背景
+                        Image("sss")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: geometry.size.width - 24, height: 440)
+                    )
                     .overlay(
                         VStack(spacing: 0) {
                             if let mindMapData = wordDataManager.getMindMap(by: currentMindMapId) {
@@ -198,7 +206,7 @@ struct WordDetailView: View {
                                         // 左列箭头 - 与第一个矩形对齐
                                         HStack {
                                             Spacer()
-                                            Image("down")
+                                            Image("arrow")
                                                 .resizable()
                                                 .frame(width: 20, height: 20)
                                             Spacer()
@@ -699,10 +707,10 @@ struct WordDetailView: View {
                                 .padding(.top, 32)
                                 .padding(.bottom, 32)
                             }
-                        }
-                    )
-                
+                            }
+                        )
                 }
+                .padding(.top, 4)
             }
         }
         .background(Color(hex: "f3f3f3"))
@@ -722,35 +730,42 @@ struct WordDetailView: View {
         let backgroundColor = isEmpty ? "ffffff" : customColor // 空单词使用白色背景
         
         return RoundedRectangle(cornerRadius: 8)
-            .fill(Color(hex: backgroundColor))
+            .fill(Color(hex: backgroundColor).opacity(0))
             .frame(height: 56)
             .overlay(
-                VStack(spacing: 2) {
-                    // 第一行英文：字号16，字重semibold，支持高亮
-                    if !isEmpty {
-                        createHighlightedText(
-                            text: displayWord.english,
-                            highlightRanges: getHighlightRanges(for: displayWord.english),
-                            fontSize: 16,
-                            fontWeight: .semibold
-                        )
-                        .lineLimit(1)
-                    } else {
-                        Text("")
-                            .font(.system(size: 16, weight: .semibold))
-                            .lineLimit(1)
+                ZStack {
+                    // 选中图标
+                    if selectedRectangleIndex == index && !isEmpty {
+                        Image("choose")
+                            .resizable()
+                            .frame(width: 30, height: 30)
                     }
                     
-                    // 第二行中文：字号12，字重medium，颜色黑色
-                    Text(displayWord.chinese)
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(Color(hex: "000000"))
-                        .lineLimit(1)
+                    // 文字内容
+                    VStack(spacing: 2) {
+                        // 第一行英文：字号16，字重semibold，支持高亮
+                        if !isEmpty {
+                            createHighlightedText(
+                                text: displayWord.english,
+                                highlightRanges: getHighlightRanges(for: displayWord.english),
+                                fontSize: 16,
+                                fontWeight: .semibold
+                            )
+                            .opacity(0)
+                            .lineLimit(1)
+                        } else {
+                            Text("")
+                                .font(.system(size: 16, weight: .semibold))
+                                .lineLimit(1)
+                        }
+                        
+                        // 第二行中文：字号12，字重medium，颜色黑色
+                        Text(displayWord.chinese)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(Color(hex: "000000").opacity(0))
+                            .lineLimit(1)
+                    }
                 }
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color(hex: "9400D8"), lineWidth: selectedRectangleIndex == index && !isEmpty ? 1 : 0)
             )
             .onTapGesture {
                 // 空单词不可选中
@@ -765,31 +780,36 @@ struct WordDetailView: View {
     
     /// 创建默认矩形（无数据时使用）
     private func createDefaultRectangle(index: Int, customColor: String) -> some View {
-        let backgroundColor = Color.gray.opacity(0.2)
-        let textColor = Color.black
-        let strokeColor = Color.purple
+        let backgroundColor = Color.gray.opacity(0)
+        let textColor = Color.black.opacity(0)
         
         return RoundedRectangle(cornerRadius: 8)
             .fill(backgroundColor)
             .frame(height: 56)
             .overlay(
-                VStack(spacing: 2) {
-                    // 第一行英文：字号16，字重semibold，颜色黑色
-                    Text("word\(index + 1)")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(textColor)
-                        .lineLimit(1)
+                ZStack {
+                    // 选中图标
+                    if selectedRectangleIndex == index {
+                        Image("choose")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
                     
-                    // 第二行中文：字号12，字重medium，颜色黑色
-                    Text("单词\(index + 1)")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(textColor)
-                        .lineLimit(1)
+                    // 文字内容
+                    VStack(spacing: 2) {
+                        // 第一行英文：字号16，字重semibold，颜色黑色
+                        Text("word\(index + 1)")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(textColor)
+                            .lineLimit(1)
+                        
+                        // 第二行中文：字号12，字重medium，颜色黑色
+                        Text("单词\(index + 1)")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(textColor)
+                            .lineLimit(1)
+                    }
                 }
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(strokeColor, lineWidth: selectedRectangleIndex == index ? 1 : 0)
             )
             .onTapGesture {
                 selectedRectangleIndex = index
@@ -845,7 +865,7 @@ struct WordDetailView: View {
                 }
             }
         }
-        return Color.black
+        return Color.black.opacity(1) // 确保单词卡上的英文文字不透明
     }
     
     // MARK: - 朗读功能

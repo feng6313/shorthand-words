@@ -6,6 +6,9 @@
 #define AC_SWIFT_PRIVATE
 #endif
 
+/// The "Image" asset catalog image resource.
+static NSString * const ACImageNameImage AC_SWIFT_PRIVATE = @"Image";
+
 /// The "arrow" asset catalog image resource.
 static NSString * const ACImageNameArrow AC_SWIFT_PRIVATE = @"arrow";
 
@@ -18,7 +21,22 @@ static NSString * const ACImageNameCollectB AC_SWIFT_PRIVATE = @"collect_b";
 /// The "collect_w" asset catalog image resource.
 static NSString * const ACImageNameCollectW AC_SWIFT_PRIVATE = @"collect_w";
 
+/// The "down" asset catalog image resource.
+static NSString * const ACImageNameDown AC_SWIFT_PRIVATE = @"down";
+
+/// The "lift" asset catalog image resource.
+static NSString * const ACImageNameLift AC_SWIFT_PRIVATE = @"lift";
+
 /// The "parting" asset catalog image resource.
 static NSString * const ACImageNameParting AC_SWIFT_PRIVATE = @"parting";
+
+/// The "right" asset catalog image resource.
+static NSString * const ACImageNameRight AC_SWIFT_PRIVATE = @"right";
+
+/// The "sss" asset catalog image resource.
+static NSString * const ACImageNameSss AC_SWIFT_PRIVATE = @"sss";
+
+/// The "up" asset catalog image resource.
+static NSString * const ACImageNameUp AC_SWIFT_PRIVATE = @"up";
 
 #undef AC_SWIFT_PRIVATE
