@@ -55,7 +55,26 @@ class CloudDataManager: ObservableObject {
     
     // 获取思维图图片URL
     func getMindMapImageURL(groupId: String) -> String {
-        return "\(baseURL)/images/\(groupId).png"
+        // 根据OSS中实际存在的文件名映射
+        // 从用户提供的OSS截图可以看到，images目录下有out_001.png和out_002.png
+        // 但是测试发现这些文件路径返回404，可能文件名或路径不正确
+        let imageFileName: String
+        switch groupId {
+        case "out_001":
+            imageFileName = "out_001"
+        case "out_002":
+            imageFileName = "out_002"
+        default:
+            // 对于其他组ID，尝试使用out_001作为默认图片
+            imageFileName = "out_001"
+        }
+        
+        // 注意：根据OSS截图，文件在images目录下，但实际测试返回404
+        // 可能需要用户确认正确的文件路径
+        let imageURL = "\(baseURL)/images/\(imageFileName).png"
+        NSLog("🖼️ 生成思维图URL: \(imageURL) (组ID: \(groupId))")
+        NSLog("⚠️ 注意：该URL可能返回404，需要确认OSS中的实际文件路径")
+        return imageURL
     }
     
     // 获取可用的数据组列表

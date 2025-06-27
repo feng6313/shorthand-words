@@ -173,11 +173,45 @@ struct WordDetailView: View {
                     .frame(width: geometry.size.width - 24, height: 440) // 32点上空白 + 5行矩形高度(56*5=280) + 4行矩形间距(24*4=96) + 32点下空白 = 32+280+96+32 = 440
                     .padding(.top, 4)
                     .background(
-                        // 最底层：sss图标作为背景
-                        Image("sss")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: geometry.size.width - 24, height: 440)
+                        // 最底层：思维图背景图片
+                        AsyncImage(url: URL(string: wordDataManager.getMindMapImageURL())) { phase in
+                            switch phase {
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: geometry.size.width - 24, height: 440)
+                            case .failure(let error):
+                                // 加载失败时显示错误信息和本地默认图片
+                                VStack {
+                                    Image("sss")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width - 24, height: 440)
+                                    Text("图片加载失败: \(error.localizedDescription)")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                        .padding(.top, 5)
+                                }
+                                .onAppear {
+                                    NSLog("🖼️ 思维图加载失败: \(wordDataManager.getMindMapImageURL()) - \(error.localizedDescription)")
+                                }
+                            case .empty:
+                                // 加载中显示本地默认图片
+                                Image("sss")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: geometry.size.width - 24, height: 440)
+                                    .onAppear {
+                                        NSLog("🖼️ 正在加载思维图: \(wordDataManager.getMindMapImageURL())")
+                                    }
+                            @unknown default:
+                                Image("sss")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: geometry.size.width - 24, height: 440)
+                            }
+                        }
                     )
                     .overlay(
                         VStack(spacing: 0) {
