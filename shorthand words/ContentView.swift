@@ -19,31 +19,195 @@ struct ContentView: View {
         "0E6B19", "967439", "4A90E2", "8E44AD"
     ]
     
-    // 数据管理器
-    @StateObject private var dataManager = WordDataManager()
+    // 支持的数据组列表 - 动态从云端获取
+    @State private var dataGroups: [String] = []
+    
+    // 每个数据组的数据管理器
+    @State private var dataManagers: [String: WordDataManager] = [:]
+    @State private var isLoading = true
+    @State private var loadError: String? = nil
+    @State private var cloudDataManager = CloudDataManager()
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
-                    if let firstWordDetail = dataManager.getFirstWordDetail() {
-                        NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[0]))) {
-                            WordBlockView(
-                                wordDetail: firstWordDetail,
-                                circleColor: Color(hex: circleColors[0]),
-                                blockNumber: 1,
-                                wordCount: dataManager.allWordsCount,
-                                homePageWords: dataManager.getHomePageWords().map { $0.english }
-                            )
-                        }
-                        .buttonStyle(PlainButtonStyle())
+            VStack {
+                // 顶部工具栏
+                HStack {
+                    Text("数据组总数: \(dataGroups.count)")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.gray)
+                    
+                    Spacer()
+                    
+                    // 刷新按钮
+                    Button("刷新全部") {
+                        refreshAllData()
                     }
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.blue)
                 }
                 .padding(.horizontal, 16)
+                .padding(.top, 8)
+                
+                if isLoading {
+                    // 加载状态
+                    VStack {
+                        Spacer()
+                        ProgressView("正在加载数据...")
+                            .progressViewStyle(CircularProgressViewStyle())
+                        Spacer()
+                    }
+                } else if let error = loadError {
+                    // 错误状态
+                    VStack {
+                        Spacer()
+                        Text("加载失败: \(error)")
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                        Button("重试") {
+                            refreshAllData()
+                        }
+                        .padding(.top, 8)
+                        .foregroundColor(.blue)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                } else {
+                    // 正常内容 - 显示数据组
+                    ScrollView {
+                        LazyVGrid(columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12)
+                        ], spacing: 16) {
+                            ForEach(Array(dataGroups.enumerated()), id: \.offset) { index, groupId in
+                                if let dataManager = dataManagers[groupId],
+                                   let firstWordDetail = dataManager.getFirstWordDetail() {
+                                    NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[index % circleColors.count]))) {
+                                        VStack {
+                                            // 数据组标题
+                                            Text(groupId)
+                                                .font(.system(size: 12, weight: .medium))
+                                                .foregroundColor(.gray)
+                                                .padding(.bottom, 4)
+                                            
+                                            WordBlockView(
+                                                wordDetail: firstWordDetail,
+                                                circleColor: Color(hex: circleColors[index % circleColors.count]),
+                                                blockNumber: index + 1,
+                                                wordCount: dataManager.allWordsCount,
+                                                homePageWords: dataManager.getHomePageWords().map { $0.english }
+                                            )
+                                        }
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                } else {
+                                    // 数据组加载失败或无数据的占位符
+                                    VStack {
+                                        Text(groupId)
+                                            .font(.system(size: 12, weight: .medium))
+                                            .foregroundColor(.gray)
+                                            .padding(.bottom, 4)
+                                        
+                                        RoundedRectangle(cornerRadius: 28)
+                                            .fill(Color.gray.opacity(0.3))
+                                            .frame(height: 200)
+                                            .overlay(
+                                                VStack {
+                                                    Image(systemName: "exclamationmark.triangle")
+                                                        .font(.system(size: 24))
+                                                        .foregroundColor(.gray)
+                                                    Text("数据加载失败")
+                                                        .font(.system(size: 14))
+                                                        .foregroundColor(.gray)
+                                                }
+                                            )
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 12)
+                    }
+                }
             }
             .background(Color(hex: "f3f3f3"))
             .navigationTitle("速记1600词")
         }
+        .onAppear {
+            loadAllData()
+        }
+    }
+    
+    // MARK: - 私有方法
+    
+    private func loadAllData() {
+        isLoading = true
+        loadError = nil
+        
+        // 首先获取可用的数据组列表
+        Task {
+            do {
+                let availableGroups = await cloudDataManager.getAvailableDataGroups()
+                
+                await MainActor.run {
+                    self.dataGroups = availableGroups
+                    
+                    // 初始化所有数据管理器
+                    for groupId in availableGroups {
+                        let dataManager = WordDataManager()
+                        dataManager.setCurrentGroup(groupId)
+                        dataManagers[groupId] = dataManager
+                    }
+                    
+                    // 监听所有数据管理器的状态变化
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.updateAllLoadingStates()
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.isLoading = false
+                    self.loadError = "获取数据组列表失败: \(error.localizedDescription)"
+                }
+            }
+        }
+    }
+    
+    private func updateAllLoadingStates() {
+        let allLoaded = dataManagers.values.allSatisfy { !$0.isLoading }
+        
+        if allLoaded {
+            // 所有数据组加载完成
+            isLoading = false
+            
+            // 检查是否有错误
+            let errors = dataManagers.compactMap { (groupId, manager) in
+                manager.errorMessage != nil ? "\(groupId): \(manager.errorMessage!)" : nil
+            }
+            
+            if !errors.isEmpty {
+                loadError = "部分数据组加载失败:\n\(errors.joined(separator: "\n"))"
+            } else {
+                loadError = nil
+            }
+        } else {
+            // 仍有数据组在加载中，继续检查
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.updateAllLoadingStates()
+            }
+        }
+    }
+    
+    private func refreshAllData() {
+        isLoading = true
+        loadError = nil
+        
+        // 刷新所有数据管理器
+        for (_, dataManager) in dataManagers {
+            dataManager.refreshData()
+        }
+        
+        // 监听加载状态变化
+        updateAllLoadingStates()
     }
 }
 
