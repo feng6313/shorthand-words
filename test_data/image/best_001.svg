@@ -1,0 +1,46 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #2c3e50; }
+      .node { font-family: Arial, sans-serif; font-size: 16px; fill: #34495e; }
+      .line { stroke: #3498db; stroke-width: 2; }
+      .circle { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" class="title">Best 001 - 基础词汇思维图</text>
+  
+  <!-- Central Node -->
+  <circle cx="400" cy="300" r="60" class="circle"/>
+  <text x="400" y="305" text-anchor="middle" class="node">基础词汇</text>
+  
+  <!-- Branch 1: Greetings -->
+  <line x1="340" y1="260" x2="200" y2="150" class="line"/>
+  <circle cx="200" cy="150" r="40" class="circle"/>
+  <text x="200" y="155" text-anchor="middle" class="node">问候语</text>
+  <text x="200" y="120" text-anchor="middle" class="node">hello</text>
+  
+  <!-- Branch 2: Nouns -->
+  <line x1="460" y1="260" x2="600" y2="150" class="line"/>
+  <circle cx="600" cy="150" r="40" class="circle"/>
+  <text x="600" y="155" text-anchor="middle" class="node">名词</text>
+  <text x="600" y="120" text-anchor="middle" class="node">world, time</text>
+  <text x="600" y="180" text-anchor="middle" class="node">people</text>
+  
+  <!-- Branch 3: Adjectives -->
+  <line x1="340" y1="340" x2="200" y2="450" class="line"/>
+  <circle cx="200" cy="450" r="40" class="circle"/>
+  <text x="200" y="455" text-anchor="middle" class="node">形容词</text>
+  <text x="200" y="420" text-anchor="middle" class="node">good</text>
+  
+  <!-- Difficulty Indicators -->
+  <text x="50" y="550" class="node">难度等级: 1-2</text>
+  <text x="650" y="550" class="node">总词数: 5</text>
+  
+  <!-- Legend -->
+  <text x="50" y="580" class="node" style="font-size: 12px;">蓝色圆圈表示词汇分类，连线显示词汇关系</text>
+</svg>

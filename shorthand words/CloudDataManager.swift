@@ -21,8 +21,8 @@ struct DataGroupIndex: Codable {
 
 // 云端数据管理器
 class CloudDataManager: ObservableObject {
-    // 阿里云OSS基础URL - 请替换为您的实际OSS域名
-    private let baseURL = "https://shorthand-words-data.oss-cn-hangzhou.aliyuncs.com"
+    // 本地测试服务器URL - 用于开发和测试
+    private let baseURL = "http://localhost:8080"
     
     // 加载指定组的单词数据
     func loadWordData(groupId: String) async throws -> LocalWordsData {
