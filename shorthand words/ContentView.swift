@@ -119,15 +119,29 @@ struct ContentView: View {
             await MainActor.run {
                 self.dataGroups = availableGroups
                 
+                // 清空之前的数据管理器
+                self.dataManagers.removeAll()
+                
+                // 如果没有可用的数据组，直接设置为加载完成
+                if availableGroups.isEmpty {
+                    self.isLoading = false
+                    self.loadError = "未找到任何数据文件"
+                    return
+                }
+                
                 // 初始化所有数据管理器
                 for groupId in availableGroups {
                     let dataManager = WordDataManager()
-                    dataManager.setCurrentGroup(groupId)
                     dataManagers[groupId] = dataManager
                 }
                 
+                // 开始加载所有数据组的数据
+                for (groupId, dataManager) in dataManagers {
+                    dataManager.setCurrentGroup(groupId)
+                }
+                
                 // 监听所有数据管理器的状态变化
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self.updateAllLoadingStates()
                 }
             }
@@ -135,7 +149,13 @@ struct ContentView: View {
     }
     
     private func updateAllLoadingStates() {
+        let loadingStates = dataManagers.map { (groupId, manager) in
+            "\(groupId): loading=\(manager.isLoading), hasData=\(manager.allWordsCount > 0), error=\(manager.errorMessage ?? "none")"
+        }
+        NSLog("📊 数据管理器状态: \(loadingStates.joined(separator: ", "))")
+        
         let allLoaded = dataManagers.values.allSatisfy { !$0.isLoading }
+        let hasAnyData = dataManagers.values.contains { $0.allWordsCount > 0 }
         
         if allLoaded {
             // 所有数据组加载完成
@@ -146,13 +166,19 @@ struct ContentView: View {
                 manager.errorMessage != nil ? "\(groupId): \(manager.errorMessage!)" : nil
             }
             
-            if !errors.isEmpty {
+            if !hasAnyData {
+                loadError = "所有数据组都没有加载到数据"
+                NSLog("❌ 所有数据组都没有数据")
+            } else if !errors.isEmpty {
                 loadError = "部分数据组加载失败:\n\(errors.joined(separator: "\n"))"
+                NSLog("⚠️ 部分数据组加载失败: \(errors)")
             } else {
                 loadError = nil
+                NSLog("✅ 所有数据组加载成功")
             }
         } else {
             // 仍有数据组在加载中，继续检查
+            NSLog("⏳ 仍有数据组在加载中，继续等待...")
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.updateAllLoadingStates()
             }
