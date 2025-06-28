@@ -127,11 +127,19 @@ class CloudDataManager: ObservableObject {
         let patterns = [
             // 数字模式
             (1...20).map { String(format: "out_%03d", $0) },
+            // best系列模式
+            (1...20).map { String(format: "best_%03d", $0) },
+            // 其他常见前缀模式
+            (1...20).map { String(format: "words_%03d", $0) },
+            (1...20).map { String(format: "data_%03d", $0) },
+            (1...20).map { String(format: "vocab_%03d", $0) },
             // 字母模式
             ["words_a", "words_b", "words_c", "words_d", "words_e"],
             // 其他可能的模式
             ["basic", "advanced", "intermediate", "expert"],
-            ["level1", "level2", "level3", "level4", "level5"]
+            ["level1", "level2", "level3", "level4", "level5"],
+            // 单独的常见名称
+            ["best", "words", "vocabulary", "english", "test"]
         ].flatMap { $0 }
         
         // 并发检查所有可能的文件

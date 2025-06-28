@@ -33,9 +33,14 @@
 如果不想维护索引文件，App会自动尝试发现以下文件名模式：
 
 - 数字模式：`out_001` 到 `out_020`
+- **best系列**：`best_001` 到 `best_020`
+- words系列：`words_001` 到 `words_020`
+- data系列：`data_001` 到 `data_020`
+- vocab系列：`vocab_001` 到 `vocab_020`
 - 字母模式：`words_a`, `words_b`, `words_c`, `words_d`, `words_e`
 - 级别模式：`basic`, `advanced`, `intermediate`, `expert`
 - 等级模式：`level1` 到 `level5`
+- 常见名称：`best`, `words`, `vocabulary`, `english`, `test`
 
 ## 数据文件格式
 
