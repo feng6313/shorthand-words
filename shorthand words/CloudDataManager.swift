@@ -8,14 +8,16 @@
 import Foundation
 import SwiftUI
 
-// 数据组索引结构
-struct DataGroupIndex: Codable {
+// Index.json数据模型
+struct IndexData: Codable {
     let groups: [String]
     let lastUpdated: String?
+    let description: String?
     
     enum CodingKeys: String, CodingKey {
         case groups
         case lastUpdated = "last_updated"
+        case description
     }
 }
 
@@ -66,144 +68,58 @@ class CloudDataManager: ObservableObject {
     
     // 获取思维图图片URL
     func getMindMapImageURL(groupId: String) -> String {
-        // 直接使用groupId作为图片文件名，不再硬编码
+        // 动态生成图片URL，假设图片文件名与groupId相同
         let imageURL = "\(baseURL)/image/\(groupId).png"
         NSLog("🖼️ 生成思维图URL: \(imageURL) (组ID: \(groupId))")
         return imageURL
     }
     
-    // 检查思维图图片是否存在
-    func checkMindMapImageExists(groupId: String) async -> Bool {
-        let imageURL = getMindMapImageURL(groupId: groupId)
-        guard let url = URL(string: imageURL) else { return false }
+    // 获取可用的数据组列表 - 从阿里云OSS的index.json动态读取
+    func getAvailableDataGroups() async -> [String] {
+        let indexURL = "\(baseURL)/index.json"
+        NSLog("🌐 尝试从index.json获取数据组列表: \(indexURL)")
+        
+        guard let url = URL(string: indexURL) else {
+            NSLog("❌ index.json URL无效: \(indexURL)")
+            return []
+        }
         
         do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            // 检查HTTP响应状态
+            if let httpResponse = response as? HTTPURLResponse {
+                NSLog("📡 index.json HTTP状态码: \(httpResponse.statusCode)")
+                guard httpResponse.statusCode == 200 else {
+                    NSLog("❌ index.json HTTP错误: \(httpResponse.statusCode)")
+                    return []
+                }
+            }
+            
+            // 解析index.json
+            let decoder = JSONDecoder()
+            let indexData = try decoder.decode(IndexData.self, from: data)
+            NSLog("✅ 成功从index.json获取数据组列表: \(indexData.groups)")
+            return indexData.groups
+            
+        } catch {
+            NSLog("❌ 获取index.json失败: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    // 检查网络连接状态 - 通过访问index.json检查
+    func checkNetworkConnection() async -> Bool {
+        do {
+            let url = URL(string: "\(baseURL)/index.json")!
             let (_, response) = try await URLSession.shared.data(from: url)
             if let httpResponse = response as? HTTPURLResponse {
                 return httpResponse.statusCode == 200
             }
+            return false
         } catch {
-            NSLog("❌ 检查思维图失败: \(error.localizedDescription)")
+            return false
         }
-        return false
-    }
-    
-    // 获取可用的数据组列表
-    func getAvailableDataGroups() async -> [String] {
-        // 首先尝试从索引文件获取文件列表
-        if let indexGroups = await loadGroupsFromIndex() {
-            NSLog("📋 从索引文件获取到 \(indexGroups.count) 个数据组: \(indexGroups)")
-            return indexGroups
-        }
-        
-        // 如果索引文件不存在，使用动态发现方式
-        NSLog("⚠️ 索引文件不存在，使用动态发现方式")
-        return await discoverAvailableGroups()
-    }
-    
-    // 从索引文件加载数据组列表
-    private func loadGroupsFromIndex() async -> [String]? {
-        let indexURL = "\(baseURL)/index.json"
-        guard let url = URL(string: indexURL) else { return nil }
-        
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                let indexData = try JSONDecoder().decode(DataGroupIndex.self, from: data)
-                NSLog("✅ 成功加载索引文件，包含 \(indexData.groups.count) 个数据组")
-                return indexData.groups
-            }
-        } catch {
-            NSLog("❌ 加载索引文件失败: \(error.localizedDescription)")
-        }
-        return nil
-    }
-    
-    // 动态发现可用的数据组
-    private func discoverAvailableGroups() async -> [String] {
-        var availableGroups: [String] = []
-        
-        // 尝试常见的文件名模式
-        let patterns = [
-            // 数字模式
-            (1...20).map { String(format: "out_%03d", $0) },
-            // 字母模式
-            ["words_a", "words_b", "words_c", "words_d", "words_e"],
-            // 其他可能的模式
-            ["basic", "advanced", "intermediate", "expert"],
-            ["level1", "level2", "level3", "level4", "level5"]
-        ].flatMap { $0 }
-        
-        // 并发检查所有可能的文件
-        await withTaskGroup(of: String?.self) { group in
-            for pattern in patterns {
-                group.addTask {
-                    await self.checkGroupExists(pattern)
-                }
-            }
-            
-            for await result in group {
-                if let groupId = result {
-                    availableGroups.append(groupId)
-                }
-            }
-        }
-        
-        // 按名称排序
-        availableGroups.sort()
-        NSLog("📋 动态发现 \(availableGroups.count) 个可用数据组: \(availableGroups)")
-        return availableGroups
-    }
-    
-    // 检查指定数据组是否存在
-    private func checkGroupExists(_ groupId: String) async -> String? {
-        let urlString = "\(baseURL)/words/\(groupId).json"
-        guard let url = URL(string: urlString) else { return nil }
-        
-        do {
-            let (_, response) = try await URLSession.shared.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                NSLog("✅ 发现可用数据组: \(groupId)")
-                return groupId
-            }
-        } catch {
-            // 静默处理错误，避免日志过多
-        }
-        return nil
-    }
-    
-    // 检查网络连接状态
-    func checkNetworkConnection() async -> Bool {
-        // 首先尝试检查索引文件
-        let indexURL = "\(baseURL)/index.json"
-        if let url = URL(string: indexURL) {
-            do {
-                let (_, response) = try await URLSession.shared.data(from: url)
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                    return true
-                }
-            } catch {
-                // 索引文件检查失败，继续尝试其他方法
-            }
-        }
-        
-        // 如果索引文件不存在，尝试获取可用数据组并检查第一个
-        let availableGroups = await getAvailableDataGroups()
-        if let firstGroup = availableGroups.first {
-            let testURL = "\(baseURL)/words/\(firstGroup).json"
-            if let url = URL(string: testURL) {
-                do {
-                    let (_, response) = try await URLSession.shared.data(from: url)
-                    if let httpResponse = response as? HTTPURLResponse {
-                        return httpResponse.statusCode == 200
-                    }
-                } catch {
-                    return false
-                }
-            }
-        }
-        
-        return false
     }
 }
 
