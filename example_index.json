@@ -1,13 +1,7 @@
 {
   "groups": [
-    "out_001",
-    "out_002",
-    "out_003",
-    "out_004",
-    "basic_words",
-    "advanced_words",
-    "business_terms",
-    "technical_vocab"
+    "your_new_file_name_here"
   ],
-  "last_updated": "2025-01-27T10:00:00Z"
+  "last_updated": "2025-01-27T10:00:00Z",
+  "description": "这个文件用于告诉App有哪些数据组可用。请将此文件重命名为index.json并上传到OSS根目录，然后在groups数组中列出所有可用的JSON文件名（不包含.json后缀）。例如：如果你上传了best_words.json，就在groups中添加'best_words'。"
 }

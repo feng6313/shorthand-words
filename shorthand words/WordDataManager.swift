@@ -17,7 +17,7 @@ class WordDataManager: ObservableObject {
     private var localWordsData: LocalWordsData?
     private let cloudManager = CloudDataManager()
     private let cacheManager = DataCacheManager()
-    private var currentGroupId = "out_001" // 默认组ID
+    private var currentGroupId = "" // 当前组ID，由外部设置
     
     // 计算属性：获取所有词语的数量（从JSON metadata中读取）
     var allWordsCount: Int {
@@ -60,13 +60,18 @@ class WordDataManager: ObservableObject {
     }
     
     init() {
-        NSLog("📱 WordDataManager: 初始化，默认组ID: \(currentGroupId)")
-        loadWordsData()
+        NSLog("📱 WordDataManager: 初始化")
+        // 不在初始化时自动加载数据，等待外部设置组ID
     }
     
     // 设置当前组ID
     func setCurrentGroup(_ groupId: String) {
+        guard !groupId.isEmpty else {
+            NSLog("📱 WordDataManager: 组ID为空，跳过加载")
+            return
+        }
         currentGroupId = groupId
+        NSLog("📱 WordDataManager: 设置组ID为: \(groupId)")
         loadWordsData()
     }
     

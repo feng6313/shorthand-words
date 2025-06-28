@@ -175,7 +175,8 @@ class CloudDataManager: ObservableObject {
     // 检查网络连接状态
     func checkNetworkConnection() async -> Bool {
         do {
-            let url = URL(string: "\(baseURL)/words/out_001.json")!
+            // 尝试访问索引文件来检查网络连接
+            let url = URL(string: "\(baseURL)/index.json")!
             let (_, response) = try await URLSession.shared.data(from: url)
             if let httpResponse = response as? HTTPURLResponse {
                 return httpResponse.statusCode == 200
