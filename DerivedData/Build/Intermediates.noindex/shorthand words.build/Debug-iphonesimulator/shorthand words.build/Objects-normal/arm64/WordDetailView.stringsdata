@@ -12,10 +12,18 @@
       },
       {
         "comment": "",
+        "key": "图片加载失败: %@",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 191
+        }
+      },
+      {
+        "comment": "",
         "key": "",
         "location": {
           "startingColumn": 34,
-          "startingLine": 756
+          "startingLine": 791
         }
       },
       {
@@ -23,7 +31,7 @@
         "key": "word%lld",
         "location": {
           "startingColumn": 30,
-          "startingLine": 800
+          "startingLine": 835
         }
       },
       {
@@ -31,7 +39,7 @@
         "key": "单词%lld",
         "location": {
           "startingColumn": 30,
-          "startingLine": 806
+          "startingLine": 841
         }
       }
     ]

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		T8b8Ut/5D/xVduQQ7gxLIXolTd4=
+		0QX/UgXh5Fzvy2NlfydyzxbnR+g=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -20,13 +20,9 @@
 		<data>
 		Eg4aD9gwemkXznwvPi9C55roKBg=
 		</data>
-		<key>local_words_data.json</key>
-		<data>
-		bqFb+KRVLYBwTiL8oYRA2dK1IC4=
-		</data>
 		<key>shorthand words.debug.dylib</key>
 		<data>
-		kHauw4KkI/ews027hIJRnEEWYwE=
+		yR0TCoRaYCc/lgQsjtAtcNJzBQU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -35,7 +31,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1WRynX1mHNFU4lm32/33cRKPTAoTxqM7YmT9Ff+Kl28=
+			5WJY69F/wq/i8OBIPEjaYYDgLr+pbeBFrIkNO9ygiv8=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>
@@ -45,18 +41,11 @@
 			iNt19/qA9MxtX8h5HrGmhDmErp5Oad5Z2/aUUs184qA=
 			</data>
 		</dict>
-		<key>local_words_data.json</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			4U5kDeOSWdRiFcIOzEOTFYhiKw4kaV5X6LT3OlMOcC0=
-			</data>
-		</dict>
 		<key>shorthand words.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			bw5pkRwQNBOxXaxIXvU1YZsSL5gPEdCWUn7k+/veAAg=
+			FDyk3N7rySCZBdXyYCxHdvbneiKw7bYo9kqidyKgTwc=
 			</data>
 		</dict>
 	</dict>

@@ -6,7 +6,7 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>39896299-EED6-4A63-AF52-830E917AF527</key>
+		<key>26324FDA-A80B-445A-89FC-83C7F45429D5</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,21 +15,21 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>39896299-EED6-4A63-AF52-830E917AF527.xcactivitylog</string>
+			<string>26324FDA-A80B-445A-89FC-83C7F45429D5.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>E</string>
+				<string>W</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>2</integer>
+				<integer>0</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
-				<integer>0</integer>
+				<integer>1</integer>
 			</dict>
 			<key>schemeIdentifier-containerName</key>
 			<string>shorthand words project</string>
@@ -40,15 +40,15 @@
 			<key>signature</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>772627212.02255797</real>
+			<real>772701028.46989405</real>
 			<key>timeStoppedRecording</key>
-			<real>772627226.82702601</real>
+			<real>772701040.79644096</real>
 			<key>title</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>39896299-EED6-4A63-AF52-830E917AF527</string>
+			<string>26324FDA-A80B-445A-89FC-83C7F45429D5</string>
 		</dict>
-		<key>62BD9A3A-0AF8-408D-A79D-684DEFA855B0</key>
+		<key>FA6443F2-3C71-4414-914E-34ED32A8916E</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,7 +57,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>62BD9A3A-0AF8-408D-A79D-684DEFA855B0.xcactivitylog</string>
+			<string>FA6443F2-3C71-4414-914E-34ED32A8916E.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -80,15 +80,15 @@
 			<key>schemeIdentifier-sharedScheme</key>
 			<integer>1</integer>
 			<key>signature</key>
-			<string>Building project shorthand words with scheme shorthand words and configuration Debug</string>
+			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>772656509.76358199</real>
+			<real>772699231.498721</real>
 			<key>timeStoppedRecording</key>
-			<real>772656525.23258102</real>
+			<real>772699243.71222305</real>
 			<key>title</key>
-			<string>Building project shorthand words with scheme shorthand words and configuration Debug</string>
+			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>62BD9A3A-0AF8-408D-A79D-684DEFA855B0</string>
+			<string>FA6443F2-3C71-4414-914E-34ED32A8916E</string>
 		</dict>
 	</dict>
 </dict>

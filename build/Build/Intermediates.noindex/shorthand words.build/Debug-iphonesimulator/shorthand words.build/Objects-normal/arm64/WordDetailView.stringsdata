@@ -12,26 +12,34 @@
       },
       {
         "comment": "",
+        "key": "图片加载失败: %@",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 191
+        }
+      },
+      {
+        "comment": "",
         "key": "",
         "location": {
-          "startingColumn": 30,
-          "startingLine": 747
+          "startingColumn": 34,
+          "startingLine": 791
         }
       },
       {
         "comment": "",
         "key": "word%lld",
         "location": {
-          "startingColumn": 26,
-          "startingLine": 786
+          "startingColumn": 30,
+          "startingLine": 835
         }
       },
       {
         "comment": "",
         "key": "单词%lld",
         "location": {
-          "startingColumn": 26,
-          "startingLine": 792
+          "startingColumn": 30,
+          "startingLine": 841
         }
       }
     ]

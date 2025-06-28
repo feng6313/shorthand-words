@@ -31,14 +31,14 @@ extension DeveloperToolsSupport.ColorResource {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension DeveloperToolsSupport.ImageResource {
 
-    /// The "Image" asset catalog image resource.
-    static let image = DeveloperToolsSupport.ImageResource(name: "Image", bundle: resourceBundle)
-
     /// The "arrow" asset catalog image resource.
     static let arrow = DeveloperToolsSupport.ImageResource(name: "arrow", bundle: resourceBundle)
 
     /// The "back" asset catalog image resource.
     static let back = DeveloperToolsSupport.ImageResource(name: "back", bundle: resourceBundle)
+
+    /// The "choose" asset catalog image resource.
+    static let choose = DeveloperToolsSupport.ImageResource(name: "choose", bundle: resourceBundle)
 
     /// The "collect_b" asset catalog image resource.
     static let collectB = DeveloperToolsSupport.ImageResource(name: "collect_b", bundle: resourceBundle)
@@ -103,15 +103,6 @@ extension SwiftUI.ShapeStyle where Self == SwiftUI.Color {
 @available(macCatalyst, unavailable)
 extension AppKit.NSImage {
 
-    /// The "Image" asset catalog image.
-    static var image: AppKit.NSImage {
-#if !targetEnvironment(macCatalyst)
-        .init(resource: .image)
-#else
-        .init()
-#endif
-    }
-
     /// The "arrow" asset catalog image.
     static var arrow: AppKit.NSImage {
 #if !targetEnvironment(macCatalyst)
@@ -125,6 +116,15 @@ extension AppKit.NSImage {
     static var back: AppKit.NSImage {
 #if !targetEnvironment(macCatalyst)
         .init(resource: .back)
+#else
+        .init()
+#endif
+    }
+
+    /// The "choose" asset catalog image.
+    static var choose: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .choose)
 #else
         .init()
 #endif
@@ -210,15 +210,6 @@ extension AppKit.NSImage {
 @available(watchOS, unavailable)
 extension UIKit.UIImage {
 
-    /// The "Image" asset catalog image.
-    static var image: UIKit.UIImage {
-#if !os(watchOS)
-        .init(resource: .image)
-#else
-        .init()
-#endif
-    }
-
     /// The "arrow" asset catalog image.
     static var arrow: UIKit.UIImage {
 #if !os(watchOS)
@@ -232,6 +223,15 @@ extension UIKit.UIImage {
     static var back: UIKit.UIImage {
 #if !os(watchOS)
         .init(resource: .back)
+#else
+        .init()
+#endif
+    }
+
+    /// The "choose" asset catalog image.
+    static var choose: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .choose)
 #else
         .init()
 #endif

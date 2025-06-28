@@ -7,7 +7,55 @@
         "key": "速记1600词",
         "location": {
           "startingColumn": 30,
-          "startingLine": 45
+          "startingLine": 133
+        }
+      },
+      {
+        "comment": "",
+        "key": "数据组总数: %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 36
+        }
+      },
+      {
+        "comment": "",
+        "key": "刷新全部",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "正在加载数据...",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "加载失败: %@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "重试",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "数据加载失败",
+        "location": {
+          "startingColumn": 58,
+          "startingLine": 119
         }
       },
       {
@@ -15,7 +63,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 38,
-          "startingLine": 157
+          "startingLine": 321
         }
       }
     ]
