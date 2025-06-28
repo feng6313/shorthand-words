@@ -8,16 +8,20 @@
 import Foundation
 import SwiftUI
 
-// Index.json数据模型
-struct IndexData: Codable {
-    let groups: [String]
-    let lastUpdated: String?
-    let description: String?
+// OSS ListObjects响应数据模型
+struct OSSListObjectsResponse: Codable {
+    let contents: [OSSObject]?
     
     enum CodingKeys: String, CodingKey {
-        case groups
-        case lastUpdated = "last_updated"
-        case description
+        case contents = "Contents"
+    }
+}
+
+struct OSSObject: Codable {
+    let key: String
+    
+    enum CodingKeys: String, CodingKey {
+        case key = "Key"
     }
 }
 
@@ -66,21 +70,22 @@ class CloudDataManager: ObservableObject {
         }
     }
     
-    // 获取思维图图片URL
+    // 获取思维图图片URL - 从OSS的image文件夹读取
     func getMindMapImageURL(groupId: String) -> String {
-        // 动态生成图片URL，假设图片文件名与groupId相同
+        // 根据用户OSS结构，图片存放在image文件夹中
         let imageURL = "\(baseURL)/image/\(groupId).png"
         NSLog("🖼️ 生成思维图URL: \(imageURL) (组ID: \(groupId))")
         return imageURL
     }
     
-    // 获取可用的数据组列表 - 从阿里云OSS的index.json动态读取
+    // 获取可用的数据组列表 - 直接从OSS扫描JSON文件
     func getAvailableDataGroups() async -> [String] {
-        let indexURL = "\(baseURL)/index.json"
-        NSLog("🌐 尝试从index.json获取数据组列表: \(indexURL)")
+        // 使用OSS的ListObjects API扫描words文件夹中的JSON文件
+        let listURL = "\(baseURL)?list-type=2&prefix=words/&delimiter=/"
+        NSLog("🌐 尝试从OSS扫描JSON文件: \(listURL)")
         
-        guard let url = URL(string: indexURL) else {
-            NSLog("❌ index.json URL无效: \(indexURL)")
+        guard let url = URL(string: listURL) else {
+            NSLog("❌ OSS列表URL无效: \(listURL)")
             return []
         }
         
@@ -89,29 +94,58 @@ class CloudDataManager: ObservableObject {
             
             // 检查HTTP响应状态
             if let httpResponse = response as? HTTPURLResponse {
-                NSLog("📡 index.json HTTP状态码: \(httpResponse.statusCode)")
+                NSLog("📡 OSS列表HTTP状态码: \(httpResponse.statusCode)")
                 guard httpResponse.statusCode == 200 else {
-                    NSLog("❌ index.json HTTP错误: \(httpResponse.statusCode)")
+                    NSLog("❌ OSS列表HTTP错误: \(httpResponse.statusCode)")
                     return []
                 }
             }
             
-            // 解析index.json
-            let decoder = JSONDecoder()
-            let indexData = try decoder.decode(IndexData.self, from: data)
-            NSLog("✅ 成功从index.json获取数据组列表: \(indexData.groups)")
-            return indexData.groups
+            // 解析XML响应
+            let groups = parseOSSListResponse(data)
+            NSLog("✅ 成功从OSS扫描获取数据组列表: \(groups)")
+            return groups
             
         } catch {
-            NSLog("❌ 获取index.json失败: \(error.localizedDescription)")
+            NSLog("❌ 获取OSS文件列表失败: \(error.localizedDescription)")
             return []
         }
     }
     
-    // 检查网络连接状态 - 通过访问index.json检查
+    // 解析OSS ListObjects的XML响应
+    private func parseOSSListResponse(_ data: Data) -> [String] {
+        guard let xmlString = String(data: data, encoding: .utf8) else {
+            NSLog("❌ 无法解析XML响应")
+            return []
+        }
+        
+        var groups: [String] = []
+        
+        // 使用简单的字符串匹配来提取文件名
+         // 查找所有<Key>words/xxx.json</Key>模式
+         let pattern = "<Key>words/([^<]+)\\.json</Key>"
+        
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let matches = regex.matches(in: xmlString, options: [], range: NSRange(location: 0, length: xmlString.count))
+            
+            for match in matches {
+                if let range = Range(match.range(at: 1), in: xmlString) {
+                    let groupId = String(xmlString[range])
+                    groups.append(groupId)
+                }
+            }
+        } catch {
+            NSLog("❌ 正则表达式错误: \(error)")
+        }
+        
+        return groups.sorted()
+    }
+    
+    // 检查网络连接状态 - 通过访问OSS根目录检查
     func checkNetworkConnection() async -> Bool {
         do {
-            let url = URL(string: "\(baseURL)/index.json")!
+            let url = URL(string: "\(baseURL)?list-type=2&max-keys=1")!
             let (_, response) = try await URLSession.shared.data(from: url)
             if let httpResponse = response as? HTTPURLResponse {
                 return httpResponse.statusCode == 200
