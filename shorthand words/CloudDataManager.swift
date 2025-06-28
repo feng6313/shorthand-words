@@ -127,19 +127,11 @@ class CloudDataManager: ObservableObject {
         let patterns = [
             // 数字模式
             (1...20).map { String(format: "out_%03d", $0) },
-            // best系列模式
-            (1...20).map { String(format: "best_%03d", $0) },
-            // 其他常见前缀模式
-            (1...20).map { String(format: "words_%03d", $0) },
-            (1...20).map { String(format: "data_%03d", $0) },
-            (1...20).map { String(format: "vocab_%03d", $0) },
             // 字母模式
             ["words_a", "words_b", "words_c", "words_d", "words_e"],
             // 其他可能的模式
             ["basic", "advanced", "intermediate", "expert"],
-            ["level1", "level2", "level3", "level4", "level5"],
-            // 单独的常见名称
-            ["best", "words", "vocabulary", "english", "test"]
+            ["level1", "level2", "level3", "level4", "level5"]
         ].flatMap { $0 }
         
         // 并发检查所有可能的文件
@@ -182,17 +174,36 @@ class CloudDataManager: ObservableObject {
     
     // 检查网络连接状态
     func checkNetworkConnection() async -> Bool {
-        do {
-            // 尝试访问索引文件来检查网络连接
-            let url = URL(string: "\(baseURL)/index.json")!
-            let (_, response) = try await URLSession.shared.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse {
-                return httpResponse.statusCode == 200
+        // 首先尝试检查索引文件
+        let indexURL = "\(baseURL)/index.json"
+        if let url = URL(string: indexURL) {
+            do {
+                let (_, response) = try await URLSession.shared.data(from: url)
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    return true
+                }
+            } catch {
+                // 索引文件检查失败，继续尝试其他方法
             }
-            return false
-        } catch {
-            return false
         }
+        
+        // 如果索引文件不存在，尝试获取可用数据组并检查第一个
+        let availableGroups = await getAvailableDataGroups()
+        if let firstGroup = availableGroups.first {
+            let testURL = "\(baseURL)/words/\(firstGroup).json"
+            if let url = URL(string: testURL) {
+                do {
+                    let (_, response) = try await URLSession.shared.data(from: url)
+                    if let httpResponse = response as? HTTPURLResponse {
+                        return httpResponse.statusCode == 200
+                    }
+                } catch {
+                    return false
+                }
+            }
+        }
+        
+        return false
     }
 }
 

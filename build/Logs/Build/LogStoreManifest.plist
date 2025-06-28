@@ -6,7 +6,7 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>26324FDA-A80B-445A-89FC-83C7F45429D5</key>
+		<key>C7AB7499-4F02-4140-BC0A-F492DE5FF91A</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,49 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>26324FDA-A80B-445A-89FC-83C7F45429D5.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>W</string>
-				<key>totalNumberOfAnalyzerIssues</key>
-				<integer>0</integer>
-				<key>totalNumberOfErrors</key>
-				<integer>0</integer>
-				<key>totalNumberOfTestFailures</key>
-				<integer>0</integer>
-				<key>totalNumberOfWarnings</key>
-				<integer>1</integer>
-			</dict>
-			<key>schemeIdentifier-containerName</key>
-			<string>shorthand words project</string>
-			<key>schemeIdentifier-schemeName</key>
-			<string>shorthand words</string>
-			<key>schemeIdentifier-sharedScheme</key>
-			<integer>1</integer>
-			<key>signature</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
-			<key>timeStartedRecording</key>
-			<real>772701028.46989405</real>
-			<key>timeStoppedRecording</key>
-			<real>772701040.79644096</real>
-			<key>title</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
-			<key>uniqueIdentifier</key>
-			<string>26324FDA-A80B-445A-89FC-83C7F45429D5</string>
-		</dict>
-		<key>FA6443F2-3C71-4414-914E-34ED32A8916E</key>
-		<dict>
-			<key>className</key>
-			<string>IDECommandLineBuildLog</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
-			<key>fileName</key>
-			<string>FA6443F2-3C71-4414-914E-34ED32A8916E.xcactivitylog</string>
+			<string>C7AB7499-4F02-4140-BC0A-F492DE5FF91A.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +40,55 @@
 			<key>signature</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>772699231.498721</real>
+			<real>772790254.77175796</real>
 			<key>timeStoppedRecording</key>
-			<real>772699243.71222305</real>
+			<real>772790264.725721</real>
 			<key>title</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>FA6443F2-3C71-4414-914E-34ED32A8916E</string>
+			<string>C7AB7499-4F02-4140-BC0A-F492DE5FF91A</string>
+		</dict>
+		<key>CD0DA168-E6C6-4770-8F0F-3F408D6A2A4C</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>CD0DA168-E6C6-4770-8F0F-3F408D6A2A4C.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>shorthand words project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>shorthand words</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project shorthand words with scheme shorthand words</string>
+			<key>timeStartedRecording</key>
+			<real>772790087.81387997</real>
+			<key>timeStoppedRecording</key>
+			<real>772790101.39633</real>
+			<key>title</key>
+			<string>Building project shorthand words with scheme shorthand words</string>
+			<key>uniqueIdentifier</key>
+			<string>CD0DA168-E6C6-4770-8F0F-3F408D6A2A4C</string>
 		</dict>
 	</dict>
 </dict>

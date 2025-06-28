@@ -17,7 +17,7 @@ class WordDataManager: ObservableObject {
     private var localWordsData: LocalWordsData?
     private let cloudManager = CloudDataManager()
     private let cacheManager = DataCacheManager()
-    private var currentGroupId = "" // 当前组ID，由外部设置
+    private var currentGroupId: String = "" // 默认组ID，将在初始化时动态设置
     
     // 计算属性：获取所有词语的数量（从JSON metadata中读取）
     var allWordsCount: Int {
@@ -60,18 +60,33 @@ class WordDataManager: ObservableObject {
     }
     
     init() {
-        NSLog("📱 WordDataManager: 初始化")
-        // 不在初始化时自动加载数据，等待外部设置组ID
+        NSLog("📱 WordDataManager: 开始初始化")
+        // 异步获取第一个可用的数据组作为默认组ID
+        Task {
+            await initializeDefaultGroup()
+        }
+    }
+    
+    // 初始化默认数据组
+    private func initializeDefaultGroup() async {
+        let availableGroups = await cloudManager.getAvailableDataGroups()
+        
+        await MainActor.run {
+            if let firstGroup = availableGroups.first {
+                self.currentGroupId = firstGroup
+                NSLog("📱 WordDataManager: 设置默认组ID: \(self.currentGroupId)")
+            } else {
+                // 如果没有找到任何数据组，使用备用默认值
+                self.currentGroupId = "out_001"
+                NSLog("⚠️ WordDataManager: 未找到可用数据组，使用备用默认值: \(self.currentGroupId)")
+            }
+            self.loadWordsData()
+        }
     }
     
     // 设置当前组ID
     func setCurrentGroup(_ groupId: String) {
-        guard !groupId.isEmpty else {
-            NSLog("📱 WordDataManager: 组ID为空，跳过加载")
-            return
-        }
         currentGroupId = groupId
-        NSLog("📱 WordDataManager: 设置组ID为: \(groupId)")
         loadWordsData()
     }
     
