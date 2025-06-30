@@ -108,7 +108,8 @@ struct ContentView: View {
                                             circleColor: Color(hex: circleColors[index % circleColors.count]),
                                             blockNumber: index + 1,
                                             wordCount: dataManager.allWordsCount,
-                                            homePageWords: dataManager.getHomePageWords().map { $0.english }
+                                            homePageWords: dataManager.getHomePageWords().map { $0.english },
+                                            coreWordChinese: dataManager.getCoreWordChinese()
                                         )
                                     }
                                     .buttonStyle(PlainButtonStyle())
@@ -256,6 +257,7 @@ struct WordBlockView: View {
     let blockNumber: Int
     let wordCount: Int
     let homePageWords: [String]
+    let coreWordChinese: String
     @State private var isCollected: Bool = false
     
     // 收藏状态持久化的key - 使用blockNumber确保唯一性
@@ -286,7 +288,7 @@ struct WordBlockView: View {
                                 Text(homePageWords.count > 0 ? homePageWords[0] : wordDetail.english)
                                     .font(.system(size: 18, weight: .semibold))
                                     .foregroundColor(.white)
-                                Text(wordDetail.chinese)
+                                Text(coreWordChinese)
                                     .font(.system(size: 12, weight: .regular))
                                     .foregroundColor(.white.opacity(0.7))
                             }

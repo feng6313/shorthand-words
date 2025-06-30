@@ -40,6 +40,12 @@ class WordDataManager: ObservableObject {
         return nonEmptyWords.first
     }
     
+    // 获取核心单词的中文翻译
+    func getCoreWordChinese() -> String {
+        guard let localData = localWordsData else { return "" }
+        return localData.coreWord.chinese
+    }
+    
     func getWordDetail(for englishWord: String) -> WordDetail? {
         return localWordsData?.allWords.first { $0.english.lowercased() == englishWord.lowercased() }
     }
