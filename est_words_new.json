@@ -1,0 +1,341 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_words": 12,
+    "core_word_position": 8,
+    "created_date": "2025-01-27",
+    "description": "本地单词数据 - est系列单词"
+  },
+  "core_word": {
+    "english": "best",
+    "phonetic": "/best/",
+    "chinese": "最好的；最佳的"
+  },
+  "home_page_words": [
+    "best",
+    "test",
+    "restroom"
+  ],
+  "all_words": [
+    {
+      "id": 1,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 2,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 3,
+      "english": "textbook",
+      "phonetic": "/ˈtekstbʊk/",
+      "chinese": "教科书；课本",
+      "phrases": [
+        {
+          "english": "textbook example",
+          "chinese": "教科书式的例子"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I need to buy a new textbook for this course.",
+          "chinese": "我需要为这门课买一本新教科书。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 8,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "english": "harvest",
+      "phonetic": "/ˈhɑːrvɪst/",
+      "chinese": "收获；收割",
+      "phrases": [
+        {
+          "english": "harvest time",
+          "chinese": "收获时节"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The farmers are busy with the harvest.",
+          "chinese": "农民们正忙着收割。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 6,
+      "english": "text",
+      "phonetic": "/tekst/",
+      "chinese": "文本；课文",
+      "phrases": [
+        {
+          "english": "text message",
+          "chinese": "短信"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Please read the text carefully.",
+          "chinese": "请仔细阅读课文。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 2,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "english": "vest",
+      "phonetic": "/vest/",
+      "chinese": "背心；马甲",
+      "phrases": [
+        {
+          "english": "safety vest",
+          "chinese": "安全背心"
+        }
+      ],
+      "examples": [
+        {
+          "english": "He wore a warm vest under his jacket.",
+          "chinese": "他在夹克里面穿了一件保暖背心。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "english": "best",
+      "phonetic": "/best/",
+      "chinese": "最好的；最佳的",
+      "phrases": [
+        {
+          "english": "best friend",
+          "chinese": "最好的朋友"
+        }
+      ],
+      "examples": [
+        {
+          "english": "This is the best book I have ever read.",
+          "chinese": "这是我读过的最好的书。"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "english": "test",
+      "phonetic": "/test/",
+      "chinese": "测试；考试",
+      "phrases": [
+        {
+          "english": "test score",
+          "chinese": "考试成绩"
+        }
+      ],
+      "examples": [
+        {
+          "english": "We have a math test tomorrow.",
+          "chinese": "我们明天有数学考试。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "english": "restroom",
+      "phonetic": "/ˈrestruːm/",
+      "chinese": "洗手间；厕所",
+      "phrases": [
+        {
+          "english": "public restroom",
+          "chinese": "公共洗手间"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Excuse me, where is the restroom?",
+          "chinese": "请问洗手间在哪里？"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 8,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "english": "rest",
+      "phonetic": "/rest/",
+      "chinese": "休息；剩余",
+      "phrases": [
+        {
+          "english": "take a rest",
+          "chinese": "休息一下"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I need to rest for a while.",
+          "chinese": "我需要休息一会儿。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "english": "forest",
+      "phonetic": "/ˈfɔːrɪst/",
+      "chinese": "森林",
+      "phrases": [
+        {
+          "english": "tropical forest",
+          "chinese": "热带森林"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The forest is full of wild animals.",
+          "chinese": "森林里有很多野生动物。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 2,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "english": "restaurant",
+      "phonetic": "/ˈrestrɒnt/",
+      "chinese": "餐厅；饭店",
+      "phrases": [
+        {
+          "english": "Chinese restaurant",
+          "chinese": "中餐厅"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Let's go to that new restaurant.",
+          "chinese": "我们去那家新餐厅吧。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 10,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "english": "restless",
+      "phonetic": "/ˈrestləs/",
+      "chinese": "不安的；焦躁的",
+      "phrases": [
+        {
+          "english": "restless night",
+          "chinese": "不眠之夜"
+        }
+      ],
+      "examples": [
+        {
+          "english": "He felt restless and couldn't sleep.",
+          "chinese": "他感到焦躁不安，无法入睡。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 8,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    }
+  ]
+}

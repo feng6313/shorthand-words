@@ -1,0 +1,303 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_words": 9,
+    "core_word_position": 8,
+    "created_date": "2025-01-27",
+    "description": "本地单词数据 - count系列单词"
+  },
+  "core_word": {
+    "english": "count",
+    "phonetic": "/kaʊnt/",
+    "chinese": "计算；数数"
+  },
+  "home_page_words": [
+    "count",
+    "discount",
+    "mountain"
+  ],
+  "all_words": [
+    {
+      "id": 1,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 2,
+      "english": "course",
+      "phonetic": "/kɔːrs/",
+      "chinese": "课程；过程",
+      "phrases": [
+        {
+          "english": "of course",
+          "chinese": "当然"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I'm taking a computer course this semester.",
+          "chinese": "这学期我在上计算机课程。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 3,
+            "end": 6,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "english": "cousin",
+      "phonetic": "/ˈkʌzən/",
+      "chinese": "表兄弟；表姐妹",
+      "phrases": [
+        {
+          "english": "first cousin",
+          "chinese": "堂兄弟姐妹"
+        }
+      ],
+      "examples": [
+        {
+          "english": "My cousin lives in another city.",
+          "chinese": "我的表兄住在另一个城市。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 3,
+            "end": 6,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 5,
+      "english": "couple",
+      "phonetic": "/ˈkʌpəl/",
+      "chinese": "夫妇；一对",
+      "phrases": [
+        {
+          "english": "a couple of",
+          "chinese": "几个"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The couple walked hand in hand.",
+          "chinese": "这对夫妇手牵手走着。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 3,
+            "end": 6,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 7,
+      "english": "mount",
+      "phonetic": "/maʊnt/",
+      "chinese": "山；安装",
+      "phrases": [
+        {
+          "english": "mount up",
+          "chinese": "增加；上升"
+        }
+      ],
+      "examples": [
+        {
+          "english": "They decided to mount the picture on the wall.",
+          "chinese": "他们决定把画挂在墙上。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "english": "count",
+      "phonetic": "/kaʊnt/",
+      "chinese": "计算；数数",
+      "phrases": [
+        {
+          "english": "count on",
+          "chinese": "依靠；指望"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Can you count from one to ten?",
+          "chinese": "你能从一数到十吗？"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "english": "discount",
+      "phonetic": "/ˈdɪskaʊnt/",
+      "chinese": "折扣；打折",
+      "phrases": [
+        {
+          "english": "at a discount",
+          "chinese": "打折"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The store offers a 20% discount on all items.",
+          "chinese": "这家商店所有商品都打八折。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "english": "mountain",
+      "phonetic": "/ˈmaʊntən/",
+      "chinese": "山；山脉",
+      "phrases": [
+        {
+          "english": "mountain range",
+          "chinese": "山脉"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The mountain is covered with snow.",
+          "chinese": "山上覆盖着雪。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 5,
+            "end": 8,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "english": "country",
+      "phonetic": "/ˈkʌntri/",
+      "chinese": "国家；乡村",
+      "phrases": [
+        {
+          "english": "developing country",
+          "chinese": "发展中国家"
+        }
+      ],
+      "examples": [
+        {
+          "english": "China is a beautiful country.",
+          "chinese": "中国是一个美丽的国家。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 5,
+            "end": 7,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 13,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 14,
+      "english": "countryside",
+      "phonetic": "/ˈkʌntrisaɪd/",
+      "chinese": "乡村；农村",
+      "phrases": [
+        {
+          "english": "in the countryside",
+          "chinese": "在乡村"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I love the peaceful countryside.",
+          "chinese": "我喜欢宁静的乡村。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 7,
+            "end": 11,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    }
+  ]
+}

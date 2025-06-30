@@ -39,11 +39,12 @@ extension Color {
 struct WordDetailView: View {
     let wordDetail: WordDetail
     let circleColor: Color
+    let wordDataManager: WordDataManager  // 接收外部传入的数据管理器
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedRectangleIndex: Int? = 0
-    @StateObject private var wordDataManager = WordDataManager()
+    @State private var selectedRectangleIndex: Int? = 7  // 初始选中第8个单词（索引为7）
     @State private var speechSynthesizer = AVSpeechSynthesizer()
-    @State private var selectedWordDetail: WordDetail? = nil
+    @State private var selectedWordDetail: WordDetail? = nil  // 上面圆角矩形显示的单词（固定为ID8）
+    @State private var detailCardWordDetail: WordDetail? = nil  // 下面详情卡显示的单词（动态变化）
     
     // 当前显示的思维图ID（可以根据需要动态设置）
     private let currentMindMapId = 1
@@ -68,12 +69,12 @@ struct WordDetailView: View {
                         .fill(circleColor)
                         .frame(height: 84)
                         .overlay(
-                            Text(wordDetail.english)
+                            Text((selectedWordDetail ?? wordDetail).english)
                                 .font(.system(size: 30, weight: .semibold))
                                 .foregroundColor(Color(hex: "ffffff"))
                         )
                         .onTapGesture {
-                            speakText(wordDetail.english)
+                            speakText((selectedWordDetail ?? wordDetail).english)
                         }
                 }
                 .padding(.horizontal, 12)
@@ -89,26 +90,26 @@ struct WordDetailView: View {
                         VStack(alignment: .center, spacing: 0) {
                             // 单词 - 距离上边缘40点
                             createHighlightedText(
-                                text: (selectedWordDetail ?? wordDetail).english,
-                                highlightRanges: getHighlightRanges(for: (selectedWordDetail ?? wordDetail).english),
+                                text: (detailCardWordDetail ?? wordDetail).english,
+                                highlightRanges: getHighlightRanges(for: (detailCardWordDetail ?? wordDetail).english),
                                 fontSize: 50,
                                 fontWeight: .semibold
                             )
                             .padding(.top, 40)
                             .onTapGesture {
-                                speakText((selectedWordDetail ?? wordDetail).english)
+                                speakText((detailCardWordDetail ?? wordDetail).english)
                             }
                             
                             // 音标 - 紧贴单词
-                            Text((selectedWordDetail ?? wordDetail).phonetic)
+                            Text((detailCardWordDetail ?? wordDetail).phonetic)
                                 .font(.system(size: 24, weight: .medium))
                                 .foregroundColor(Color(hex: "5D8DFD"))
                                 .onTapGesture {
-                                    speakText((selectedWordDetail ?? wordDetail).english)
+                                    speakText((detailCardWordDetail ?? wordDetail).english)
                                 }
                             
                             // 翻译 - 距离卡片上边缘145点
-                            Text((selectedWordDetail ?? wordDetail).chinese)
+                            Text((detailCardWordDetail ?? wordDetail).chinese)
                                 .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(Color(hex: "000000").opacity(1)) // 确保单词卡上的中文文字不透明
                                 .padding(.top, 145 - 32 - 50 - 24)
@@ -121,7 +122,7 @@ struct WordDetailView: View {
                             
                             // 词组及翻译 - 距离卡片上边缘220点
                             VStack(alignment: .center, spacing: 2) {
-                                if let firstPhrase = (selectedWordDetail ?? wordDetail).phrases.first {
+                                if let firstPhrase = (detailCardWordDetail ?? wordDetail).phrases.first {
                                     Text(firstPhrase.english)
                                         .font(.system(size: 14, weight: .medium))
                                         .foregroundColor(Color(hex: "000000").opacity(1)) // 确保词组英文文字不透明
@@ -137,7 +138,7 @@ struct WordDetailView: View {
                             
                             // 例句及翻译 - 距离卡片上边缘248点
                             VStack(alignment: .center, spacing: 2) {
-                                if let firstExample = (selectedWordDetail ?? wordDetail).examples.first {
+                                if let firstExample = (detailCardWordDetail ?? wordDetail).examples.first {
                                     Text(firstExample.english)
                                         .font(.system(size: 14, weight: .medium))
                                         .foregroundColor(Color(hex: "000000").opacity(1)) // 确保例句英文文字不透明
@@ -748,6 +749,15 @@ struct WordDetailView: View {
             }
         }
         .background(Color(hex: "f3f3f3"))
+        .onAppear {
+            // 初始化时设置selectedWordDetail为ID为8的单词（上面圆角矩形固定显示）
+            if let mindMapData = wordDataManager.getMindMap(by: currentMindMapId),
+               let coreWord = mindMapData.words[safe: 7] { // 索引7对应ID为8的单词
+                selectedWordDetail = wordDataManager.getWordDetail(for: coreWord.english)
+                // 初始化时下面详情卡也显示ID为8的单词
+                detailCardWordDetail = selectedWordDetail
+            }
+        }
         #if os(iOS)
         .toolbar(.hidden, for: .navigationBar)
         #endif
@@ -769,7 +779,7 @@ struct WordDetailView: View {
             .overlay(
                 ZStack {
                     // 选中图标
-                    if selectedRectangleIndex == index && !isEmpty {
+                    if selectedRectangleIndex == index {
                         Image("choose")
                             .resizable()
                             .frame(width: 30, height: 30)
@@ -802,12 +812,11 @@ struct WordDetailView: View {
                 }
             )
             .onTapGesture {
-                // 空单词不可选中
+                selectedRectangleIndex = index
                 if !isEmpty {
-                    selectedRectangleIndex = index
                     speakText(displayWord.english)
-                    // 根据点击的单词更新上方显示的单词数据
-                    selectedWordDetail = wordDataManager.getWordDetail(for: displayWord.english)
+                    // 更新下面详情卡显示的单词
+                    detailCardWordDetail = wordDataManager.getWordDetail(for: displayWord.english)
                 }
             }
     }
@@ -938,6 +947,7 @@ extension Array {
               examples: [],
               highlight: nil
           ),
-        circleColor: Color.black
+        circleColor: Color.black,
+        wordDataManager: WordDataManager()
     )
 }

@@ -1,0 +1,308 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_words": 8,
+    "core_word_position": 8,
+    "created_date": "2025-01-27",
+    "description": "本地单词数据 - fish系列单词"
+  },
+  "core_word": {
+    "english": "fish",
+    "phonetic": "/fɪʃ/",
+    "chinese": "鱼；钓鱼"
+  },
+  "home_page_words": [
+    "fish",
+    "dish",
+    "wise"
+  ],
+  "all_words": [
+    {
+      "id": 1,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 2,
+      "english": "punish",
+      "phonetic": "/ˈpʌnɪʃ/",
+      "chinese": "惩罚；处罚",
+      "phrases": [
+        {
+          "english": "punish severely",
+          "chinese": "严厉惩罚"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The teacher will punish students who cheat.",
+          "chinese": "老师会惩罚作弊的学生。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 2,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 4,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 5,
+      "english": "finish",
+      "phonetic": "/ˈfɪnɪʃ/",
+      "chinese": "完成；结束",
+      "phrases": [
+        {
+          "english": "finish off",
+          "chinese": "完成；结束"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I need to finish my homework tonight.",
+          "chinese": "我今晚需要完成作业。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 2,
+            "end": 4,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 7,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 8,
+      "english": "fish",
+      "phonetic": "/fɪʃ/",
+      "chinese": "鱼；钓鱼",
+      "phrases": [
+        {
+          "english": "go fishing",
+          "chinese": "去钓鱼"
+        }
+      ],
+      "examples": [
+        {
+          "english": "We caught many fish in the lake.",
+          "chinese": "我们在湖里钓到了很多鱼。"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "english": "dish",
+      "phonetic": "/dɪʃ/",
+      "chinese": "盘子；菜肴",
+      "phrases": [
+        {
+          "english": "main dish",
+          "chinese": "主菜"
+        }
+      ],
+      "examples": [
+        {
+          "english": "This is my favorite dish.",
+          "chinese": "这是我最喜欢的菜。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "english": "wise",
+      "phonetic": "/waɪz/",
+      "chinese": "明智的；聪明的",
+      "phrases": [
+        {
+          "english": "wise choice",
+          "chinese": "明智的选择"
+        }
+      ],
+      "examples": [
+        {
+          "english": "It's wise to save money for the future.",
+          "chinese": "为将来存钱是明智的。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "english": "wish",
+      "phonetic": "/wɪʃ/",
+      "chinese": "希望；愿望",
+      "phrases": [
+        {
+          "english": "make a wish",
+          "chinese": "许愿"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I wish you good luck.",
+          "chinese": "我祝你好运。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 3,
+            "end": 4,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 13,
+      "english": "without",
+      "phonetic": "/wɪˈðaʊt/",
+      "chinese": "没有；不用",
+      "phrases": [
+        {
+          "english": "without doubt",
+          "chinese": "毫无疑问"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I can't live without music.",
+          "chinese": "我不能没有音乐。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 7,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "english": "with",
+      "phonetic": "/wɪð/",
+      "chinese": "和；用；带有",
+      "phrases": [
+        {
+          "english": "with pleasure",
+          "chinese": "很乐意"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I went to the park with my friends.",
+          "chinese": "我和朋友们一起去了公园。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          },
+          {
+            "start": 2,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "english": "witch",
+      "phonetic": "/wɪtʃ/",
+      "chinese": "女巫；巫婆",
+      "phrases": [
+        {
+          "english": "witch doctor",
+          "chinese": "巫医"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The witch cast a spell on the prince.",
+          "chinese": "女巫对王子施了魔法。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 3,
+            "end": 4,
+            "color": "red"
+          }
+        ]
+      }
+    }
+  ]
+}

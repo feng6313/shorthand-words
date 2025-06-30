@@ -20,26 +20,63 @@ struct ContentView: View {
     ]
     
     // 支持的数据组列表 - 动态从云端获取
-    @State private var dataGroups: [String] = []
+    @State private var allDataGroups: [String] = []
+    @State private var displayedDataGroups: [String] = []
     
     // 每个数据组的数据管理器
     @State private var dataManagers: [String: WordDataManager] = [:]
     @State private var isLoading = true
+    @State private var isLoadingMore = false
     @State private var loadError: String? = nil
     @State private var cloudDataManager = CloudDataManager()
+    
+    // 分页参数
+    private let itemsPerPage = 10
+    private var hasMoreItems: Bool {
+        displayedDataGroups.count < allDataGroups.count
+    }
+    
+    // 加载更多数据
+    private func loadMoreItems() {
+        guard !isLoadingMore && hasMoreItems else { return }
+        
+        isLoadingMore = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let currentCount = displayedDataGroups.count
+            let nextBatch = Array(allDataGroups.dropFirst(currentCount).prefix(itemsPerPage))
+            
+            // 初始化新的数据管理器
+            for groupId in nextBatch {
+                let dataManager = WordDataManager()
+                dataManager.setCurrentGroup(groupId)
+                dataManagers[groupId] = dataManager
+            }
+            
+            // 添加到显示列表
+            displayedDataGroups.append(contentsOf: nextBatch)
+            
+            // 更新加载状态
+            updateAllLoadingStates()
+            
+            isLoadingMore = false
+        }
+    }
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
                 
                 if isLoading {
-                    // 加载状态
+                    // 加载状态 - 使用iOS默认的转圈加载图标
                     VStack {
                         Spacer()
-                        ProgressView("正在加载数据...")
+                        ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.5)
                         Spacer()
                     }
+                    .background(Color.clear)
                 } else if let error = loadError {
                     // 错误状态
                     VStack {
@@ -62,10 +99,10 @@ struct ContentView: View {
                             GridItem(.flexible(), spacing: 12),
                             GridItem(.flexible(), spacing: 12)
                         ], spacing: 16) {
-                            ForEach(Array(dataGroups.enumerated()), id: \.offset) { index, groupId in
+                            ForEach(Array(displayedDataGroups.enumerated()), id: \.offset) { index, groupId in
                                 if let dataManager = dataManagers[groupId],
                                    let firstWordDetail = dataManager.getFirstWordDetail() {
-                                    NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[index % circleColors.count]))) {
+                                    NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[index % circleColors.count]), wordDataManager: dataManager)) {
                                         WordBlockView(
                                             wordDetail: firstWordDetail,
                                             circleColor: Color(hex: circleColors[index % circleColors.count]),
@@ -92,12 +129,42 @@ struct ContentView: View {
                                         )
                                 }
                             }
+                            
+                            // 加载更多指示器
+                            if hasMoreItems {
+                                HStack {
+                                    Spacer()
+                                    if isLoadingMore {
+                                        ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle())
+                                            .scaleEffect(0.8)
+                                        Text("加载中...")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(.gray)
+                                            .padding(.leading, 8)
+                                    } else {
+                                        Button("加载更多") {
+                                            loadMoreItems()
+                                        }
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.blue)
+                                    }
+                                    Spacer()
+                                }
+                                .padding(.vertical, 20)
+                                .onAppear {
+                                    // 自动加载更多
+                                    if !isLoadingMore {
+                                        loadMoreItems()
+                                    }
+                                }
+                            }
                         }
                         .padding(.horizontal, 12)
                     }
                 }
             }
-            .background(Color(hex: "f3f3f3"))
+            .background(isLoading ? Color.clear : Color(hex: "f3f3f3"))
             .navigationTitle("速记1600词")
             .navigationBarTitleDisplayMode(.large)
         }
@@ -117,10 +184,12 @@ struct ContentView: View {
             let availableGroups = await cloudDataManager.getAvailableDataGroups()
             
             await MainActor.run {
-                self.dataGroups = availableGroups
+                self.allDataGroups = availableGroups
+                // 初始加载前10个
+                self.displayedDataGroups = Array(availableGroups.prefix(itemsPerPage))
                 
-                // 初始化所有数据管理器
-                for groupId in availableGroups {
+                // 初始化显示的数据管理器
+                for groupId in displayedDataGroups {
                     let dataManager = WordDataManager()
                     dataManager.setCurrentGroup(groupId)
                     dataManagers[groupId] = dataManager
@@ -135,15 +204,17 @@ struct ContentView: View {
     }
     
     private func updateAllLoadingStates() {
-        let allLoaded = dataManagers.values.allSatisfy { !$0.isLoading }
+        // 只检查当前显示的数据组
+        let displayedManagers = displayedDataGroups.compactMap { dataManagers[$0] }
+        let allLoaded = displayedManagers.allSatisfy { !$0.isLoading }
         
         if allLoaded {
-            // 所有数据组加载完成
+            // 当前显示的数据组加载完成
             isLoading = false
             
             // 检查是否有错误
-            let errors = dataManagers.compactMap { (groupId, manager) in
-                manager.errorMessage != nil ? "\(groupId): \(manager.errorMessage!)" : nil
+            let errors = displayedManagers.compactMap { manager in
+                manager.errorMessage != nil ? manager.errorMessage! : nil
             }
             
             if !errors.isEmpty {
@@ -172,6 +243,8 @@ struct ContentView: View {
         updateAllLoadingStates()
     }
     
+
+    
     }
 
 // Color扩展已在WordDetailView中定义
@@ -184,6 +257,11 @@ struct WordBlockView: View {
     let wordCount: Int
     let homePageWords: [String]
     @State private var isCollected: Bool = false
+    
+    // 收藏状态持久化的key - 使用blockNumber确保唯一性
+    private var collectionKey: String {
+        "collected_\(blockNumber)_\(wordDetail.id)"
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -205,7 +283,7 @@ struct WordBlockView: View {
                             )
                             .overlay(
                                 VStack(spacing: 2) {
-                                Text(wordDetail.english)
+                                Text(homePageWords.count > 0 ? homePageWords[0] : wordDetail.english)
                                     .font(.system(size: 18, weight: .semibold))
                                     .foregroundColor(.white)
                                 Text(wordDetail.chinese)
@@ -293,6 +371,8 @@ struct WordBlockView: View {
                         // 收藏图标（右下角）
                         Button(action: {
                             isCollected.toggle()
+                            // 保存收藏状态到UserDefaults
+                            UserDefaults.standard.set(isCollected, forKey: collectionKey)
                         }) {
                             Image(isCollected ? "collect_b" : "collect_w")
                                 .resizable()
@@ -304,9 +384,12 @@ struct WordBlockView: View {
                         )
                     }
                 )
-                .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
         }
         .aspectRatio(0.75, contentMode: .fit)
+        .onAppear {
+            // 从UserDefaults加载收藏状态
+            isCollected = UserDefaults.standard.bool(forKey: collectionKey)
+        }
     }
 }
 

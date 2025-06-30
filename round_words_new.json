@@ -1,0 +1,323 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_words": 10,
+    "core_word_position": 8,
+    "created_date": "2025-01-27",
+    "description": "本地单词数据 - round系列单词"
+  },
+  "core_word": {
+    "english": "round",
+    "phonetic": "/raʊnd/",
+    "chinese": "圆的；回合"
+  },
+  "home_page_words": [
+    "round",
+    "surround",
+    "group"
+  ],
+  "all_words": [
+    {
+      "id": 1,
+      "english": "pound",
+      "phonetic": "/paʊnd/",
+      "chinese": "磅；英镑",
+      "phrases": [
+        {
+          "english": "pound sterling",
+          "chinese": "英镑"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The book weighs about one pound.",
+          "chinese": "这本书重约一磅。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 3,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 4,
+      "english": "sound",
+      "phonetic": "/saʊnd/",
+      "chinese": "声音；听起来",
+      "phrases": [
+        {
+          "english": "sound like",
+          "chinese": "听起来像"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I heard a strange sound last night.",
+          "chinese": "昨晚我听到了奇怪的声音。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "english": "around",
+      "phonetic": "/əˈraʊnd/",
+      "chinese": "周围；大约",
+      "phrases": [
+        {
+          "english": "look around",
+          "chinese": "四处看看"
+        }
+      ],
+      "examples": [
+        {
+          "english": "There are many trees around the house.",
+          "chinese": "房子周围有很多树。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 7,
+      "english": "found",
+      "phonetic": "/faʊnd/",
+      "chinese": "发现；找到",
+      "phrases": [
+        {
+          "english": "be found",
+          "chinese": "被发现"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I found my keys under the sofa.",
+          "chinese": "我在沙发下面找到了钥匙。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "english": "round",
+      "phonetic": "/raʊnd/",
+      "chinese": "圆的；回合",
+      "phrases": [
+        {
+          "english": "round trip",
+          "chinese": "往返旅行"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The table is round in shape.",
+          "chinese": "这张桌子是圆形的。"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "english": "surround",
+      "phonetic": "/səˈraʊnd/",
+      "chinese": "包围；环绕",
+      "phrases": [
+        {
+          "english": "surround with",
+          "chinese": "用...包围"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The police surrounded the building.",
+          "chinese": "警察包围了这栋建筑。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "english": "group",
+      "phonetic": "/ɡruːp/",
+      "chinese": "组；群体",
+      "phrases": [
+        {
+          "english": "group work",
+          "chinese": "小组作业"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Our group consists of five members.",
+          "chinese": "我们小组有五个成员。"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "english": "ground",
+      "phonetic": "/ɡraʊnd/",
+      "chinese": "地面；土地",
+      "phrases": [
+        {
+          "english": "on the ground",
+          "chinese": "在地上"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The ball fell to the ground.",
+          "chinese": "球掉到了地上。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "english": "surrounding",
+      "phonetic": "/səˈraʊndɪŋ/",
+      "chinese": "周围的；环境",
+      "phrases": [
+        {
+          "english": "surrounding area",
+          "chinese": "周边地区"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The surrounding scenery is beautiful.",
+          "chinese": "周围的景色很美。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 8,
+            "end": 11,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "english": "under",
+      "phonetic": "/ˈʌndər/",
+      "chinese": "在...下面",
+      "phrases": [
+        {
+          "english": "under control",
+          "chinese": "在控制之下"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The cat is hiding under the table.",
+          "chinese": "猫躲在桌子下面。"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "english": "underground",
+      "phonetic": "/ˈʌndərɡraʊnd/",
+      "chinese": "地下的；地铁",
+      "phrases": [
+        {
+          "english": "underground station",
+          "chinese": "地铁站"
+        }
+      ],
+      "examples": [
+        {
+          "english": "We took the underground to the city center.",
+          "chinese": "我们乘地铁去市中心。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 5,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    }
+  ]
+}

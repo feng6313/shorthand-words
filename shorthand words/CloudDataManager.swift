@@ -8,20 +8,16 @@
 import Foundation
 import SwiftUI
 
-// OSS ListObjects响应数据模型
-struct OSSListObjectsResponse: Codable {
-    let contents: [OSSObject]?
+// Index.json数据模型
+struct IndexData: Codable {
+    let groups: [String]
+    let lastUpdated: String?
+    let description: String?
     
     enum CodingKeys: String, CodingKey {
-        case contents = "Contents"
-    }
-}
-
-struct OSSObject: Codable {
-    let key: String
-    
-    enum CodingKeys: String, CodingKey {
-        case key = "Key"
+        case groups
+        case lastUpdated = "last_updated"
+        case description
     }
 }
 
@@ -78,14 +74,13 @@ class CloudDataManager: ObservableObject {
         return imageURL
     }
     
-    // 获取可用的数据组列表 - 直接从OSS扫描JSON文件
+    // 获取可用的数据组列表 - 从阿里云OSS的index.json动态读取
     func getAvailableDataGroups() async -> [String] {
-        // 使用OSS的ListObjects API扫描words文件夹中的JSON文件
-        let listURL = "\(baseURL)?list-type=2&prefix=words/&delimiter=/"
-        NSLog("🌐 尝试从OSS扫描JSON文件: \(listURL)")
+        let indexURL = "\(baseURL)/index.json"
+        NSLog("🌐 尝试从index.json获取数据组列表: \(indexURL)")
         
-        guard let url = URL(string: listURL) else {
-            NSLog("❌ OSS列表URL无效: \(listURL)")
+        guard let url = URL(string: indexURL) else {
+            NSLog("❌ index.json URL无效: \(indexURL)")
             return []
         }
         
@@ -94,58 +89,29 @@ class CloudDataManager: ObservableObject {
             
             // 检查HTTP响应状态
             if let httpResponse = response as? HTTPURLResponse {
-                NSLog("📡 OSS列表HTTP状态码: \(httpResponse.statusCode)")
+                NSLog("📡 index.json HTTP状态码: \(httpResponse.statusCode)")
                 guard httpResponse.statusCode == 200 else {
-                    NSLog("❌ OSS列表HTTP错误: \(httpResponse.statusCode)")
+                    NSLog("❌ index.json HTTP错误: \(httpResponse.statusCode)")
                     return []
                 }
             }
             
-            // 解析XML响应
-            let groups = parseOSSListResponse(data)
-            NSLog("✅ 成功从OSS扫描获取数据组列表: \(groups)")
-            return groups
+            // 解析index.json
+            let decoder = JSONDecoder()
+            let indexData = try decoder.decode(IndexData.self, from: data)
+            NSLog("✅ 成功从index.json获取数据组列表: \(indexData.groups)")
+            return indexData.groups
             
         } catch {
-            NSLog("❌ 获取OSS文件列表失败: \(error.localizedDescription)")
+            NSLog("❌ 获取index.json失败: \(error.localizedDescription)")
             return []
         }
     }
     
-    // 解析OSS ListObjects的XML响应
-    private func parseOSSListResponse(_ data: Data) -> [String] {
-        guard let xmlString = String(data: data, encoding: .utf8) else {
-            NSLog("❌ 无法解析XML响应")
-            return []
-        }
-        
-        var groups: [String] = []
-        
-        // 使用简单的字符串匹配来提取文件名
-         // 查找所有<Key>words/xxx.json</Key>模式
-         let pattern = "<Key>words/([^<]+)\\.json</Key>"
-        
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
-            let matches = regex.matches(in: xmlString, options: [], range: NSRange(location: 0, length: xmlString.count))
-            
-            for match in matches {
-                if let range = Range(match.range(at: 1), in: xmlString) {
-                    let groupId = String(xmlString[range])
-                    groups.append(groupId)
-                }
-            }
-        } catch {
-            NSLog("❌ 正则表达式错误: \(error)")
-        }
-        
-        return groups.sorted()
-    }
-    
-    // 检查网络连接状态 - 通过访问OSS根目录检查
+    // 检查网络连接状态 - 通过访问index.json检查
     func checkNetworkConnection() async -> Bool {
         do {
-            let url = URL(string: "\(baseURL)?list-type=2&max-keys=1")!
+            let url = URL(string: "\(baseURL)/index.json")!
             let (_, response) = try await URLSession.shared.data(from: url)
             if let httpResponse = response as? HTTPURLResponse {
                 return httpResponse.statusCode == 200

@@ -54,7 +54,7 @@
           "CLANG_COVERAGE_MAPPING" : "YES",
           "CLANG_PROFILE_DATA_DIRECTORY" : "/Users/feng/Documents/shorthand words/build/Build/ProfileData",
           "COLOR_DIAGNOSTICS" : "YES",
-          "diagnostic_message_length" : "147",
+          "diagnostic_message_length" : "139",
           "ENABLE_PREVIEWS" : "NO",
           "ENABLE_XOJIT_PREVIEWS" : "YES",
           "ONLY_ACTIVE_ARCH" : "YES",

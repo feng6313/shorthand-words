@@ -1,0 +1,322 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_words": 8,
+    "core_word_position": 8,
+    "created_date": "2025-01-27",
+    "description": "本地单词数据 - meal系列单词"
+  },
+  "core_word": {
+    "english": "meal",
+    "phonetic": "/miːl/",
+    "chinese": "餐；饭"
+  },
+  "home_page_words": [
+    "meal",
+    "real",
+    "mean"
+  ],
+  "all_words": [
+    {
+      "id": 1,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 2,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 3,
+      "english": "realistic",
+      "phonetic": "/ˌriːəˈlɪstɪk/",
+      "chinese": "现实的；实际的",
+      "phrases": [
+        {
+          "english": "realistic goal",
+          "chinese": "现实的目标"
+        }
+      ],
+      "examples": [
+        {
+          "english": "We need to be realistic about our expectations.",
+          "chinese": "我们需要对期望保持现实态度。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 5,
+            "end": 9,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "english": "really",
+      "phonetic": "/ˈriːəli/",
+      "chinese": "真正地；非常",
+      "phrases": [
+        {
+          "english": "really good",
+          "chinese": "非常好"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I really like this book.",
+          "chinese": "我真的很喜欢这本书。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 6,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "english": "real",
+      "phonetic": "/riːl/",
+      "chinese": "真实的；实际的",
+      "phrases": [
+        {
+          "english": "real life",
+          "chinese": "现实生活"
+        }
+      ],
+      "examples": [
+        {
+          "english": "This is a real diamond.",
+          "chinese": "这是一颗真钻石。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 1,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "english": "realize",
+      "phonetic": "/ˈriːəlaɪz/",
+      "chinese": "意识到；实现",
+      "phrases": [
+        {
+          "english": "realize the dream",
+          "chinese": "实现梦想"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I didn't realize you were here.",
+          "chinese": "我没意识到你在这里。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 7,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "english": "meat",
+      "phonetic": "/miːt/",
+      "chinese": "肉；肉类",
+      "phrases": [
+        {
+          "english": "red meat",
+          "chinese": "红肉"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I don't eat meat.",
+          "chinese": "我不吃肉。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 3,
+            "end": 4,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "english": "meal",
+      "phonetic": "/miːl/",
+      "chinese": "餐；饭",
+      "phrases": [
+        {
+          "english": "have a meal",
+          "chinese": "吃饭"
+        }
+      ],
+      "examples": [
+        {
+          "english": "We had a delicious meal at the restaurant.",
+          "chinese": "我们在餐厅吃了一顿美味的饭。"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "english": "mean",
+      "phonetic": "/miːn/",
+      "chinese": "意思是；平均的",
+      "phrases": [
+        {
+          "english": "mean value",
+          "chinese": "平均值"
+        }
+      ],
+      "examples": [
+        {
+          "english": "What does this word mean?",
+          "chinese": "这个词是什么意思？"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 3,
+            "end": 4,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "english": "meet",
+      "phonetic": "/miːt/",
+      "chinese": "遇见；会面",
+      "phrases": [
+        {
+          "english": "meet someone",
+          "chinese": "见某人"
+        }
+      ],
+      "examples": [
+        {
+          "english": "Nice to meet you.",
+          "chinese": "很高兴见到你。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 2,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 12,
+      "english": "meaning",
+      "phonetic": "/ˈmiːnɪŋ/",
+      "chinese": "意义；含义",
+      "phrases": [
+        {
+          "english": "true meaning",
+          "chinese": "真正含义"
+        }
+      ],
+      "examples": [
+        {
+          "english": "The meaning of life is different for everyone.",
+          "chinese": "生活的意义对每个人都不同。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 7,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "english": "meeting",
+      "phonetic": "/ˈmiːtɪŋ/",
+      "chinese": "会议；聚会",
+      "phrases": [
+        {
+          "english": "business meeting",
+          "chinese": "商务会议"
+        }
+      ],
+      "examples": [
+        {
+          "english": "We have a meeting at 3 PM.",
+          "chinese": "我们下午3点有个会议。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 4,
+            "end": 7,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 15,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    }
+  ]
+}

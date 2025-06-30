@@ -17,21 +17,27 @@ class WordDataManager: ObservableObject {
     private var localWordsData: LocalWordsData?
     private let cloudManager = CloudDataManager()
     private let cacheManager = DataCacheManager()
-    private var currentGroupId: String = "" // 默认组ID，将在初始化时动态设置
+    private var currentGroupId = "out_001" // 默认组ID
     
-    // 计算属性：获取所有词语的数量（从JSON metadata中读取）
+    // 计算属性：获取所有词语的数量（排除空数据）
     var allWordsCount: Int {
-        return localWordsData?.metadata.totalWords ?? 0
+        guard let localData = localWordsData else { return 0 }
+        // 统计非空单词的数量
+        return localData.allWords.filter { !$0.english.isEmpty }.count
     }
     
     func getFirstWordDetail() -> WordDetail? {
-        // 返回核心词，如果没有核心词则返回第一个单词
+        // 返回第8个位置的单词作为核心词
         guard let localData = localWordsData else { return nil }
         
-        // 查找与核心词匹配的WordDetail
-        let coreWordDetail = localData.allWords.first { $0.english.lowercased() == localData.coreWord.english.lowercased() }
+        // 获取第8个位置的单词（索引为7）
+        let nonEmptyWords = localData.allWords.filter { !$0.english.isEmpty }
+        if nonEmptyWords.count >= 8 {
+            return nonEmptyWords[7] // 第8个单词
+        }
         
-        return coreWordDetail ?? localData.allWords.first
+        // 如果没有第8个单词，返回第一个非空单词
+        return nonEmptyWords.first
     }
     
     func getWordDetail(for englishWord: String) -> WordDetail? {
@@ -47,12 +53,10 @@ class WordDataManager: ObservableObject {
         
         var homePageWordDetails: [WordDetail] = []
         
-        for homePageWord in localData.homePageWords {
-            if let wordDetail = localData.allWords.first(where: { $0.english.lowercased() == homePageWord.lowercased() }) {
-                // 只添加非空的单词
-                if !wordDetail.english.isEmpty {
-                    homePageWordDetails.append(wordDetail)
-                }
+        // 根据JSON中的home_page_words字段获取对应的WordDetail
+        for englishWord in localData.homePageWords {
+            if let wordDetail = localData.allWords.first(where: { $0.english.lowercased() == englishWord.lowercased() }) {
+                homePageWordDetails.append(wordDetail)
             }
         }
         
@@ -60,28 +64,8 @@ class WordDataManager: ObservableObject {
     }
     
     init() {
-        NSLog("📱 WordDataManager: 开始初始化")
-        // 异步获取第一个可用的数据组作为默认组ID
-        Task {
-            await initializeDefaultGroup()
-        }
-    }
-    
-    // 初始化默认数据组
-    private func initializeDefaultGroup() async {
-        let availableGroups = await cloudManager.getAvailableDataGroups()
-        
-        await MainActor.run {
-            if let firstGroup = availableGroups.first {
-                self.currentGroupId = firstGroup
-                NSLog("📱 WordDataManager: 设置默认组ID: \(self.currentGroupId)")
-            } else {
-                // 如果没有找到任何数据组，使用备用默认值
-                self.currentGroupId = "out_001"
-                NSLog("⚠️ WordDataManager: 未找到可用数据组，使用备用默认值: \(self.currentGroupId)")
-            }
-            self.loadWordsData()
-        }
+        NSLog("📱 WordDataManager: 初始化，默认组ID: \(currentGroupId)")
+        loadWordsData()
     }
     
     // 设置当前组ID

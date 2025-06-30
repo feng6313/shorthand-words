@@ -6,7 +6,7 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>3593DEC6-AAEB-401A-98DF-F334CD79AC3D</key>
+		<key>48BAC16D-E296-4121-A67F-677BBC8E52C8</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>3593DEC6-AAEB-401A-98DF-F334CD79AC3D.xcactivitylog</string>
+			<string>48BAC16D-E296-4121-A67F-677BBC8E52C8.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -40,15 +40,15 @@
 			<key>signature</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>772791387.03502595</real>
+			<real>772955571.60766399</real>
 			<key>timeStoppedRecording</key>
-			<real>772791401.79329097</real>
+			<real>772955584.24841499</real>
 			<key>title</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>3593DEC6-AAEB-401A-98DF-F334CD79AC3D</string>
+			<string>48BAC16D-E296-4121-A67F-677BBC8E52C8</string>
 		</dict>
-		<key>89460741-60B4-43D6-B7C5-B73A79B29BB8</key>
+		<key>87F67416-3718-4C87-94C4-FC73EB8993DF</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,7 +57,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>89460741-60B4-43D6-B7C5-B73A79B29BB8.xcactivitylog</string>
+			<string>87F67416-3718-4C87-94C4-FC73EB8993DF.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +82,13 @@
 			<key>signature</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>772791205.57884502</real>
+			<real>772955223.78655696</real>
 			<key>timeStoppedRecording</key>
-			<real>772791215.10535598</real>
+			<real>772955239.01792204</real>
 			<key>title</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>89460741-60B4-43D6-B7C5-B73A79B29BB8</string>
+			<string>87F67416-3718-4C87-94C4-FC73EB8993DF</string>
 		</dict>
 	</dict>
 </dict>

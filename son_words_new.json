@@ -1,0 +1,237 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_words": 8,
+    "core_word_position": 8,
+    "created_date": "2025-01-27",
+    "description": "本地单词数据 - son系列单词"
+  },
+  "core_word": {
+    "english": "son",
+    "phonetic": "/sʌn/",
+    "chinese": "儿子；孩子"
+  },
+  "home_page_words": [
+    "son",
+    "reason",
+    "soon"
+  ],
+  "all_words": [
+    {
+      "id": 1,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 2,
+      "english": "reasonable",
+      "phonetic": "/ˈriːznəbl/",
+      "chinese": "合理的；公道的",
+      "phrases": [
+        {
+          "english": "reasonable price",
+          "chinese": "合理的价格"
+        }
+      ],
+      "examples": [
+        {
+          "english": "That's a reasonable request.",
+          "chinese": "那是一个合理的要求。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 6,
+            "end": 10,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 4,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 5,
+      "english": "reason",
+      "phonetic": "/ˈriːzn/",
+      "chinese": "原因；理由",
+      "phrases": [
+        {
+          "english": "good reason",
+          "chinese": "充分的理由"
+        }
+      ],
+      "examples": [
+        {
+          "english": "What's the reason for your decision?",
+          "chinese": "你做这个决定的原因是什么？"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 7,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 8,
+      "english": "son",
+      "phonetic": "/sʌn/",
+      "chinese": "儿子；孩子",
+      "phrases": [
+        {
+          "english": "eldest son",
+          "chinese": "长子"
+        }
+      ],
+      "examples": [
+        {
+          "english": "He is my youngest son.",
+          "chinese": "他是我最小的儿子。"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "english": "soon",
+      "phonetic": "/suːn/",
+      "chinese": "很快；不久",
+      "phrases": [
+        {
+          "english": "as soon as",
+          "chinese": "一...就..."
+        }
+      ],
+      "examples": [
+        {
+          "english": "I'll be there soon.",
+          "chinese": "我很快就到那里。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 2,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 11,
+      "english": "lesson",
+      "phonetic": "/ˈlesn/",
+      "chinese": "课程；教训",
+      "phrases": [
+        {
+          "english": "English lesson",
+          "chinese": "英语课"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I learned a valuable lesson today.",
+          "chinese": "我今天学到了宝贵的一课。"
+        }
+      ],
+      "highlight": {
+        "english": [
+          {
+            "start": 0,
+            "end": 3,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 13,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    },
+    {
+      "id": 14,
+      "english": "less",
+      "phonetic": "/les/",
+      "chinese": "更少的；较少的",
+      "phrases": [
+        {
+          "english": "less than",
+          "chinese": "少于"
+        }
+      ],
+      "examples": [
+        {
+          "english": "I have less time today.",
+          "chinese": "我今天时间更少。"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "english": "",
+      "phonetic": "",
+      "chinese": "",
+      "phrases": [],
+      "examples": []
+    }
+  ]
+}
