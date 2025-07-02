@@ -6,7 +6,7 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>5F0FF03B-2A71-40E0-B23F-C318C995D3E0</key>
+		<key>76DCCDEE-E26B-4C9B-A507-B4A5A7CD499B</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,17 +15,17 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>5F0FF03B-2A71-40E0-B23F-C318C995D3E0.xcactivitylog</string>
+			<string>76DCCDEE-E26B-4C9B-A507-B4A5A7CD499B.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>E</string>
+				<string>S</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>5</integer>
+				<integer>0</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
@@ -38,17 +38,17 @@
 			<key>schemeIdentifier-sharedScheme</key>
 			<integer>1</integer>
 			<key>signature</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
+			<string>Cleaning project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>773130251.39285302</real>
+			<real>773130454.62351894</real>
 			<key>timeStoppedRecording</key>
-			<real>773130258.69093096</real>
+			<real>773130454.99370003</real>
 			<key>title</key>
-			<string>Building project shorthand words with scheme shorthand words</string>
+			<string>Cleaning project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>5F0FF03B-2A71-40E0-B23F-C318C995D3E0</string>
+			<string>76DCCDEE-E26B-4C9B-A507-B4A5A7CD499B</string>
 		</dict>
-		<key>E83D3229-6EDA-45E4-B247-1D1D0D05D03C</key>
+		<key>BA3AB896-8294-4F77-8418-5B90EF3BB045</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,7 +57,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>E83D3229-6EDA-45E4-B247-1D1D0D05D03C.xcactivitylog</string>
+			<string>BA3AB896-8294-4F77-8418-5B90EF3BB045.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -67,7 +67,7 @@
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>5</integer>
+				<integer>6</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
@@ -82,13 +82,13 @@
 			<key>signature</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>timeStartedRecording</key>
-			<real>773130173.45037496</real>
+			<real>773130466.10819805</real>
 			<key>timeStoppedRecording</key>
-			<real>773130187.25123405</real>
+			<real>773130474.36140001</real>
 			<key>title</key>
 			<string>Building project shorthand words with scheme shorthand words</string>
 			<key>uniqueIdentifier</key>
-			<string>E83D3229-6EDA-45E4-B247-1D1D0D05D03C</string>
+			<string>BA3AB896-8294-4F77-8418-5B90EF3BB045</string>
 		</dict>
 	</dict>
 </dict>

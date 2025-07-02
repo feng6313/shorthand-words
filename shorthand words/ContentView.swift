@@ -108,63 +108,64 @@ struct ContentView: View {
                                 GridItem(.flexible(), spacing: 12)
                             ], spacing: 16) {
                                 ForEach(Array(displayedDataGroups.enumerated()), id: \.offset) { index, groupId in
-                                if let dataManager = dataManagers[groupId],
-                                   let firstWordDetail = dataManager.getFirstWordDetail() {
-                                    NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[index % circleColors.count]), wordDataManager: dataManager)) {
-                                        WordBlockView(
-                                            wordDetail: firstWordDetail,
-                                            circleColor: Color(hex: circleColors[index % circleColors.count]),
-                                            blockNumber: index + 1,
-                                            wordCount: dataManager.allWordsCount,
-                                            homePageWords: dataManager.getHomePageWords().map { $0.english },
-                                            coreWordChinese: dataManager.getCoreWordChinese()
-                                        )
-                                    }
-                                    .buttonStyle(PlainButtonStyle())
-                                } else {
-                                    // 数据组加载失败或无数据的占位符
-                                    RoundedRectangle(cornerRadius: 28)
-                                        .fill(Color.gray.opacity(0.3))
-                                        .frame(height: 200)
-                                        .overlay(
-                                            VStack {
-                                                Image(systemName: "exclamationmark.triangle")
-                                                    .font(.system(size: 24))
-                                                    .foregroundColor(.gray)
-                                                Text("数据加载失败")
-                                                    .font(.system(size: 14))
-                                                    .foregroundColor(.gray)
-                                            }
-                                        )
-                                }
-                            }
-                            
-                            // 加载更多指示器
-                            if hasMoreItems {
-                                HStack {
-                                    Spacer()
-                                    if isLoadingMore {
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle())
-                                            .scaleEffect(0.8)
-                                        Text("加载中...")
-                                            .font(.system(size: 14))
-                                            .foregroundColor(.gray)
-                                            .padding(.leading, 8)
+                                    if let dataManager = dataManagers[groupId],
+                                       let firstWordDetail = dataManager.getFirstWordDetail() {
+                                        NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[index % circleColors.count]), wordDataManager: dataManager)) {
+                                            WordBlockView(
+                                                wordDetail: firstWordDetail,
+                                                circleColor: Color(hex: circleColors[index % circleColors.count]),
+                                                blockNumber: index + 1,
+                                                wordCount: dataManager.allWordsCount,
+                                                homePageWords: dataManager.getHomePageWords().map { $0.english },
+                                                coreWordChinese: dataManager.getCoreWordChinese()
+                                            )
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
                                     } else {
-                                        Button("加载更多") {
+                                        // 数据组加载失败或无数据的占位符
+                                        RoundedRectangle(cornerRadius: 28)
+                                            .fill(Color.gray.opacity(0.3))
+                                            .frame(height: 200)
+                                            .overlay(
+                                                VStack {
+                                                    Image(systemName: "exclamationmark.triangle")
+                                                        .font(.system(size: 24))
+                                                        .foregroundColor(.gray)
+                                                    Text("数据加载失败")
+                                                        .font(.system(size: 14))
+                                                        .foregroundColor(.gray)
+                                                }
+                                            )
+                                    }
+                                }
+                                
+                                // 加载更多指示器
+                                if hasMoreItems {
+                                    HStack {
+                                        Spacer()
+                                        if isLoadingMore {
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle())
+                                                .scaleEffect(0.8)
+                                            Text("加载中...")
+                                                .font(.system(size: 14))
+                                                .foregroundColor(.gray)
+                                                .padding(.leading, 8)
+                                        } else {
+                                            Button("加载更多") {
+                                                loadMoreItems()
+                                            }
+                                            .font(.system(size: 14))
+                                            .foregroundColor(.blue)
+                                        }
+                                        Spacer()
+                                    }
+                                    .padding(.vertical, 20)
+                                    .onAppear {
+                                        // 自动加载更多
+                                        if !isLoadingMore {
                                             loadMoreItems()
                                         }
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.blue)
-                                    }
-                                    Spacer()
-                                }
-                                .padding(.vertical, 20)
-                                .onAppear {
-                                    // 自动加载更多
-                                    if !isLoadingMore {
-                                        loadMoreItems()
                                     }
                                 }
                             }
@@ -251,10 +252,7 @@ struct ContentView: View {
         // 监听加载状态变化
         updateAllLoadingStates()
     }
-    
-
-    
-    }
+}
 
 // Color扩展已在WordDetailView中定义
 
