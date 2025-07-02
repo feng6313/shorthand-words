@@ -30,6 +30,16 @@
 			<key>catalogPath</key>
 			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
 			<key>objcSymbol</key>
+			<string>ACImageNameBanner</string>
+			<key>relativePath</key>
+			<string>./banner.imageset</string>
+			<key>swiftSymbol</key>
+			<string>banner</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/feng/Documents/shorthand words/shorthand words/Assets.xcassets</string>
+			<key>objcSymbol</key>
 			<string>ACImageNameChoose</string>
 			<key>relativePath</key>
 			<string>./choose.imageset</string>

@@ -95,11 +95,19 @@ struct ContentView: View {
                 } else {
                     // 正常内容 - 显示数据组
                     ScrollView {
-                        LazyVGrid(columns: [
-                            GridItem(.flexible(), spacing: 12),
-                            GridItem(.flexible(), spacing: 12)
-                        ], spacing: 16) {
-                            ForEach(Array(displayedDataGroups.enumerated()), id: \.offset) { index, groupId in
+                        VStack(spacing: 16) {
+                            // Banner图片
+                            Image("banner")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .padding(.horizontal, 12)
+                            
+                            // 卡片网格
+                            LazyVGrid(columns: [
+                                GridItem(.flexible(), spacing: 12),
+                                GridItem(.flexible(), spacing: 12)
+                            ], spacing: 16) {
+                                ForEach(Array(displayedDataGroups.enumerated()), id: \.offset) { index, groupId in
                                 if let dataManager = dataManagers[groupId],
                                    let firstWordDetail = dataManager.getFirstWordDetail() {
                                     NavigationLink(destination: WordDetailView(wordDetail: firstWordDetail, circleColor: Color(hex: circleColors[index % circleColors.count]), wordDataManager: dataManager)) {
@@ -160,8 +168,8 @@ struct ContentView: View {
                                     }
                                 }
                             }
+                            .padding(.horizontal, 12)
                         }
-                        .padding(.horizontal, 12)
                     }
                 }
             }

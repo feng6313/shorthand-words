@@ -37,6 +37,9 @@ extension DeveloperToolsSupport.ImageResource {
     /// The "back" asset catalog image resource.
     static let back = DeveloperToolsSupport.ImageResource(name: "back", bundle: resourceBundle)
 
+    /// The "banner" asset catalog image resource.
+    static let banner = DeveloperToolsSupport.ImageResource(name: "banner", bundle: resourceBundle)
+
     /// The "choose" asset catalog image resource.
     static let choose = DeveloperToolsSupport.ImageResource(name: "choose", bundle: resourceBundle)
 
@@ -116,6 +119,15 @@ extension AppKit.NSImage {
     static var back: AppKit.NSImage {
 #if !targetEnvironment(macCatalyst)
         .init(resource: .back)
+#else
+        .init()
+#endif
+    }
+
+    /// The "banner" asset catalog image.
+    static var banner: AppKit.NSImage {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .banner)
 #else
         .init()
 #endif
@@ -223,6 +235,15 @@ extension UIKit.UIImage {
     static var back: UIKit.UIImage {
 #if !os(watchOS)
         .init(resource: .back)
+#else
+        .init()
+#endif
+    }
+
+    /// The "banner" asset catalog image.
+    static var banner: UIKit.UIImage {
+#if !os(watchOS)
+        .init(resource: .banner)
 #else
         .init()
 #endif

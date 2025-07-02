@@ -12,6 +12,9 @@ static NSString * const ACImageNameArrow AC_SWIFT_PRIVATE = @"arrow";
 /// The "back" asset catalog image resource.
 static NSString * const ACImageNameBack AC_SWIFT_PRIVATE = @"back";
 
+/// The "banner" asset catalog image resource.
+static NSString * const ACImageNameBanner AC_SWIFT_PRIVATE = @"banner";
+
 /// The "choose" asset catalog image resource.
 static NSString * const ACImageNameChoose AC_SWIFT_PRIVATE = @"choose";
 
